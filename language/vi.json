@@ -1,0 +1,124 @@
+{
+	"global": {
+		"tracemoe_api_limit": "Vì bị giới hạn yêu cầu đến máy chủ trace.moe, bạn chỉ có thể sử dụng lệnh này mỗi 60 phút một lần.",
+		"ready": "Sẵn sàng",
+		"status_ready": "trạng thái bot sẵn sàng",
+		"command_error": "Đã xảy ra lỗi khi thực hiện lệnh này.",
+		"command_register": "Đã đăng ký lệnh",
+		"waiting_command": "Đang đăng kí lệnh...",
+		"guild_join": "Đã tham gia máy chủ: ",
+		"command_register_error": "Lỗi khi đăng ký lệnh: ",
+		"server_register_error": "Lỗi khi đăng ký lệnh cho máy chủ: ",
+		"preview_button": "Trang trước",
+		"next_button": "Trang sau",
+		"unavailable": "không xác định",
+		"no_description": "Không có mô tả",
+		"description": "Mô tả",
+		"error": "Lỗi: ",
+		"error_reply": "Đã xảy ra lỗi khi tìm kiếm thông tin. Vui lòng thử lại sau.",
+		"no_results": "Không tìm thấy: ",
+		"nsfw_block": "AniChan đã chặn kết quả tìm kiếm: ",
+		"nsfw_block_reason": "__Lý do:__ Để bảo vệ máy chủ của bạn khỏi điều khoản dịch vụ của Discord, AniChan chặn các kết quả tìm kiếm chứa nội dung người lớn.",
+		"episodes": "Số Tập",
+		"chapters": "Số Chương",
+		"genres": "Thể loại",
+		"status": "Trạng thái",
+		"average_score": "Điểm đánh giá",
+		"mean_score": "Điểm xếp hạng",
+		"season": "Mùa",
+		"studio": "Studio",
+		"minute": "phút",
+		"retry": "Thử lại sau"
+	},
+	"anime": {
+		"command_description": "Tìm kiếm thông tin về một bộ anime cụ thể.",
+		"anime_name": "Tên anime"
+	},
+	"character": {
+		"command_description": "Tìm kiếm thông tin về một nhân vật cụ thể.",
+		"character_name": "Tên nhân vật",
+		"anime_appearances": "Xuất hiện trong anime: "
+	},
+	"character_search": {
+		"command_description": "Tìm kiếm thông tin về một nhân vật cụ thể.",
+		"character_name": "Tên nhân vật",
+		"anime_list": "Danh sách anime có chứa nhân vật: "
+	},
+	"manga": {
+		"command_description": "Tìm kiếm thông tin về một bộ manga cụ thể.",
+		"manga_name": "Tên manga"
+	},
+	"search": {
+		"command_description": "Tìm kiếm anime bằng hình ảnh. (Hỗ trợ dung lượng ảnh tối đa 25MB)",
+		"image_link": "Liên kết đến hình ảnh",
+		"cut_black_borders": "Cắt bỏ viền đen",
+		"similarity": "Tỉ lệ trùng khớp",
+		"appears_episode": "Xuất hiện trong tập: "
+	},
+	"staff": {
+		"command_description": "Tìm kiếm thông tin về một nhân viên cụ thể.",
+		"staff_name": "Tên staff",
+		"staff_info": "Thông tin cá nhân của staff"
+	},
+	"studio": {
+		"command_description": "Lấy thông tin về studio và danh sách anime được sản xuất bởi studio.",
+		"studio_name": "Tên studio",
+		"product_year": "Năm sản xuất",
+		"studio_info": "Thông tin studio",
+		"product_list": "Danh sách các anime được sản xuất bởi studio"
+	},
+	"trending": {
+		"command_description": "Hiển thị danh sách 10 bộ anime đang thịnh hành trên AniList.",
+		"trending_title": "Danh sách anime đang thịnh hành",
+		"trending_description": "Danh sách 10 bộ anime đang thịnh hành trên AniList."
+	},
+	"user": {
+		"command_description": "Xem thông tin về người dùng trên AniList.",
+		"user_name": "Tên người dùng",
+		"anime_count": "bộ anime",
+		"manga_count": "bộ manga",
+		"minutes_watched": "phút đã xem",
+		"chapters_read": "chương đã đọc"
+	},
+	"ascii": {
+		"command_description": "Chuyển văn bản thành ASCII.",
+		"text": "Văn bản cần chuyển",
+		"text_limit": "Văn bản không được vượt quá 2000 ký tự."
+	},
+	"avatar": {
+		"command_description": "Lấy ảnh đại diện của người dùng.",
+		"user_name": "Tên người dùng",
+		"requested_by": "Yêu cầu bởi"
+	},
+	"ping": {
+		"description": "Kiểm tra độ trễ của bot.",
+		"command_description": "ping.command_description"
+	},
+	"weather": {
+		"command_description": "Xem thông tin thời tiết của một địa điểm cụ thể.",
+		"location": "Địa điểm",
+		"longitude": "Kinh độ",
+		"latitude": "Vĩ độ",
+		"degreetype": "Đơn vị nhiệt độ",
+		"current_temperature": "Nhiệt độ đo được",
+		"feels_like": "Nhiệt độ cảm nhận",
+		"winddisplay": "Tốc độ gió",
+		"humidity": "Độ ẩm",
+		"observationtime": "Cập nhật lúc"
+	},
+	"language": {
+		"command_description": "Chuyển đổi ngôn ngữ cho bot.",
+		"language_option": "Ngôn ngữ (en, vi)",
+		"language_switch": "Ngôn ngữ đã thay đổi",
+		"respone_language": "Ngôn ngữ hiện tại của bot đã được đặt thành: "
+	},
+	"langlist": {
+		"command_description": "Xem ngôn ngữ hiện tại của bot và danh sách ngôn ngữ có sẵn.",
+		"title": "Ngôn ngữ hiện tại của bot: ",
+		"description": "Danh sách ngôn ngữ có sẵn: "
+	},
+	
+	"en": "Tiếng Anh",
+	"vi": "Tiếng Việt"
+	
+}
