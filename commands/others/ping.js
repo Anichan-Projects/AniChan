@@ -5,7 +5,7 @@ const language = require('./../../language_setup.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('ping')
-        .setDescription(`${language.__n(`ping.command_description`)}`),
+        .setDescription(`${language.__n(`ping.description`)}`),
     async execute(interaction) {
         if (interaction.replied || interaction.deferred) {
             return;

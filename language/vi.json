@@ -91,8 +91,7 @@
 		"requested_by": "Yêu cầu bởi"
 	},
 	"ping": {
-		"description": "Kiểm tra độ trễ của bot.",
-		"command_description": "ping.command_description"
+		"description": "Kiểm tra độ trễ của bot."
 	},
 	"weather": {
 		"command_description": "Xem thông tin thời tiết của một địa điểm cụ thể.",
@@ -117,8 +116,6 @@
 		"title": "Ngôn ngữ hiện tại của bot: ",
 		"description": "Danh sách ngôn ngữ có sẵn: "
 	},
-	
 	"en": "Tiếng Anh",
 	"vi": "Tiếng Việt"
-	
 }

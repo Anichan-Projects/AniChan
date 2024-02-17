@@ -90,8 +90,7 @@
 		"requested_by": "Requested by"
 	},
 	"ping": {
-		"description": "Bot ping.",
-		"command_description": "ping.command_description"
+		"description": "Bot ping."
 	},
 	"weather": {
 		"command_description": "Get the weather for a specific location.",
@@ -103,7 +102,8 @@
 		"feels_like": "Feels like",
 		"winddisplay": "Wind",
 		"humidity": "Humidity",
-		"observationtime": "Update time"
+		"observationtime": "Update time",
+		"deegretype": "weather.deegretype"
 	},
 	"language": {
 		"command_description": "Change the bot's language",
@@ -113,7 +113,6 @@
 	},
 	"en": "English",
 	"vi": "Vietnamese",
-
 	"langlist": {
 		"command_description": "Get a list of available language & current language.",
 		"title": "Current language:",

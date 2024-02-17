@@ -35,7 +35,7 @@ module.exports = {
                         value: location.lat, 
                         inline: true },
                     {
-                        name: `${language.__n(`weather.deegretype`)}`,
+                        name: `${language.__n(`weather.degreetype`)}`,
                         value: `°${location.degreetype}`,
                         inline: true,
                     },
