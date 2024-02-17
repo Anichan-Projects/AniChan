@@ -37,7 +37,7 @@ module.exports = {
         .setTimestamp();
 
       trendingAnime.forEach(anime => {
-        const description = anime.description ? anime.description.replace(/<[^>]+>/g, '').slice(0, 250) + '...': 'Không có mô tả';
+        const description = anime.description ? anime.description.replace(/<[^>]+>/g, '').slice(0, 250) + '...': `${language.__n(`global.unavaliable`)}`;
         embed.addFields(
           { name: anime.title.romaji, value: `__${language.__n(`global.description`)}:__ ${description}\n__${language.__n(`global.average_score`)}:__ ${anime.averageScore}/100\n__${language.__n(`global.mean_score`)}:__ ${anime.meanScore ? anime.meanScore + '/100' : `${language.__n(`global.unavaliable`)}`}\n`, inline: false }
         );
