@@ -33,7 +33,7 @@ module.exports = {
       const trendingAnime = response.data.data.Page.media;
       const embed = new MessageEmbed()
         .setTitle(`${language.__n(`trending.trending_title`)}`)
-        .setDescription(`${language.__n(`trending.rending_description`)}`)
+        .setDescription(`${language.__n(`trending.trending_description`)}`)
         .setTimestamp();
 
       trendingAnime.forEach(anime => {
