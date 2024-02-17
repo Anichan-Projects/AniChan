@@ -27,8 +27,8 @@
 		"mean_score": "Mean score",
 		"season": "Season",
 		"studio": "Studio",
-		"minute": "phút",
-		"retry": "Thử lại sau"
+		"minute": "minute",
+		"retry": "Retry"
 	},
 	"anime": {
 		"command_description": "Search for information about a specific anime.",
@@ -65,7 +65,7 @@
 		"studio_name": "Studio name",
 		"product_year": "Product year",
 		"studio_info": "Studio info",
-		"product_list": "Danh sách các anime được sản xuất bởi studio"
+		"product_list": "List of anime produced by the studio"
 	},
 	"trending": {
 		"command_description": "Get a list of trending anime on AniList.",
@@ -102,8 +102,7 @@
 		"feels_like": "Feels like",
 		"winddisplay": "Wind",
 		"humidity": "Humidity",
-		"observationtime": "Update time",
-		"deegretype": "weather.deegretype"
+		"observationtime": "Update time"
 	},
 	"language": {
 		"command_description": "Change the bot's language",
