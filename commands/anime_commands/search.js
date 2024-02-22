@@ -38,7 +38,7 @@ module.exports = {
                 apiUrl = 'https://api.trace.moe/search?cutBorders&url=' + encodeURIComponent(imageUrl);
             }
 
-            const response = await axios.get(apiUrl);
+            const response = await axios.get(apiUrl, { maxContentLength: 26214400 });
             const data = response.data;
             if (data.result && data.result.length > 0) {
                 const animeid = data.result[0].anilist;
@@ -87,8 +87,16 @@ module.exports = {
                 interaction.reply(`${language.__n(`global.error_reply`)}`);
             }
         } catch (error) {
+            if (error.response && error.response.status === 413) {
+                return interaction.reply(`${language.__n(`search.file_too_large`)}`);
+            }
+            else if (error.response && error.response.status === 429) {
+                return interaction.reply(`${language.__n(`search.tracemoe_api_limit`)}`);
+            }
+            else if (error.response && error.response.status === 400) {
+                return interaction.reply(`${language.__n(`global.error_reply`)}`);
+            }
             console.error(error);
-            interaction.reply(`${language.__n(`global.error_reply`)}`);
         }
     },
 };

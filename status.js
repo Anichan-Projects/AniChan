@@ -6,7 +6,7 @@ const language = require('./language_setup.js');
 
 const activities = [
   { name: 'watching', type: 'WATCHING', text: 'anime' },
-  { name: 'watching', type: 'WATCHING', text: 'invite.anichan.hiyurin.asia' },
+  { name: 'watching', type: 'WATCHING', text: 'invite.anichan.asia' },
 ];
 
 function setRandomActivity() {

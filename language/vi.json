@@ -53,7 +53,9 @@
 		"image_link": "Liên kết đến hình ảnh",
 		"cut_black_borders": "Cắt bỏ viền đen",
 		"similarity": "Tỉ lệ trùng khớp",
-		"appears_episode": "Xuất hiện trong tập: "
+		"appears_episode": "Xuất hiện trong tập: ",
+		"file_too_large": "Dung lượng ảnh quá lớn. Vui lòng thử lại với ảnh có dung lượng nhỏ hơn 25MB.",
+		"tracemoe_api_limit": "Đã đạt giới hạn yêu cầu đến máy chủ trace.moe. Vui lòng thử lại sau."
 	},
 	"staff": {
 		"command_description": "Tìm kiếm thông tin về một nhân viên cụ thể.",
