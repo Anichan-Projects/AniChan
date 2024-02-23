@@ -1,6 +1,6 @@
 const { Client, Intents, Collection } = require('discord.js');
 const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
+const { Routes } = require('discord-api-types/v10');
 const fs = require('fs');
 const dotenv = require('dotenv');
 const language = require('./language_setup.js');
@@ -44,7 +44,7 @@ client.on('interactionCreate', async (interaction) => {
 client.login(token).then(() => {
   console.log(`${language.__n(`global.waiting_command`)}`);
   const commandsArray = commands.map(command => command.data.toJSON());
-  const rest = new REST({ version: '9' }).setToken(token);
+  const rest = new REST({ version: '10' }).setToken(token);
 
   rest.put(Routes.applicationCommands(client.user.id), { body: commandsArray })
     .then(() => console.log(`${language.__n(`global.command_register`)}`))
@@ -58,7 +58,7 @@ client.on('guildCreate', async (guild) => {
     console.log(`${language.__n(`global.guild_join`)}: ${guild.name} (ID: ${guild.id}).`);
 
     const commandsArray = commands.map(command => command.data.toJSON());
-    const rest = new REST({ version: '9' }).setToken(token);
+    const rest = new REST({ version: '10' }).setToken(token);
 
     await rest.put(Routes.applicationGuildCommands(client.user.id, guild.id), { body: commandsArray });
 
