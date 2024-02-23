@@ -62,7 +62,7 @@ client.on('guildCreate', async (guild) => {
 
     await rest.put(Routes.applicationGuildCommands(client.user.id, guild.id), { body: commandsArray });
 
-    console.log(`${language.__n(`global.server_register_error`)} ${guild.name} (ID: ${guild.id})`);
+    console.log(`${language.__n(`global.command_register`)}: ${guild.name} (ID: ${guild.id})`);
   } catch (error) {
     console.error(`${language.__n(`global.server_register_error`)} ${guild.name} (ID: ${guild.id})`, error);
   }
