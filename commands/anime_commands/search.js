@@ -96,7 +96,7 @@ module.exports = {
             else if (error.response && error.response.status === 400) {
                 return interaction.reply(`${language.__n(`global.error_reply`)}`);
             }
-            console.error(error);
+            console.error(error.response);
         }
     },
 };

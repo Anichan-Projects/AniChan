@@ -102,7 +102,7 @@ module.exports = {
                 interaction.editReply({ components: [] });
             });
         } catch (error) {
-            console.error(`${language.__n(`global.error`)}`, error);
+            console.error(`${language.__n(`global.error`)}`, error.response);
             interaction.reply(`${language.__n(`global.error_reply`)}`);
         }
     },
