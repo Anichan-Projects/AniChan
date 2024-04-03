@@ -6,8 +6,8 @@ const language = require('./../../language_setup.js');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('user')
-    .setDescription('Hiển thị thông tin tổng quan về người dùng trên AniList.')
-    .addStringOption(option => option.setName('username').setDescription('Tên người dùng trên AniList').setRequired(true)),
+    .setDescription(`${language.__n('user.command_description')}`)
+    .addStringOption(option => option.setName('username').setDescription(`${language.__n('user.user_name')}`).setRequired(true)),
   async execute(interaction) {
     const username = interaction.options.getString('username');
 
@@ -44,7 +44,7 @@ module.exports = {
       const userData = response.data.data.User;
 
       if (!userData) {
-        return interaction.reply(`Không tìm thấy thông tin người dùng: **${username}**`);
+        return interaction.reply(`${language.__n(`global.no_results`)}: **${username}**`);
       }
       const embed = new MessageEmbed()
         .setTitle(userData.name)
@@ -53,22 +53,22 @@ module.exports = {
         .addFields(
           {
             name: 'Đã xem',
-            value: `${userData.statistics.anime.count} bộ anime.`,
+            value: `${userData.statistics.anime.count} ${language.__n('user.anime_count')}.`,
             inline: true,
           },
           {
             name: 'Đã xem',
-            value: `${userData.statistics.anime.minutesWatched} phút.`,
+            value: `${userData.statistics.anime.minutesWatched} ${language.__n('user.manga_count')}`,
             inline: true,
           },
           {
             name: 'Đã xem',
-            value: `${userData.statistics.manga.count} bộ manga.`,
+            value: `${userData.statistics.manga.count} ${language.__n('user.minutes_watched')}.`,
             inline: true,
           },
           {
             name: 'Đã đọc',
-            value: `${userData.statistics.manga.chaptersRead} chương.`,
+            value: `${userData.statistics.manga.chaptersRead} ${language.__n('user.chapters_read')}.`,
             inline: true,
           }
         )
