@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const figlet = require('figlet');
-const language = require('./../../language_setup.js');
+const language = require('./../../language/language_setup.js');
 
 module.exports = {
     data: new SlashCommandBuilder()

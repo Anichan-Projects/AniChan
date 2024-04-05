@@ -1,7 +1,7 @@
 const weather = require('weather-js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
-const language = require('./../../language_setup.js');
+const language = require('./../../language/language_setup.js');
 
 module.exports = {
     data: new SlashCommandBuilder()

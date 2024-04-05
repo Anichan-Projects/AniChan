@@ -3,7 +3,7 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v10');
 const fs = require('fs');
 const dotenv = require('dotenv');
-const language = require('./language_setup.js');
+const language = require('./language/language_setup.js');
 
 dotenv.config();
 
@@ -51,7 +51,7 @@ client.login(token).then(() => {
     .catch(error => console.error(`${language.__n(`global.command_register_error`)}`, error));
 });
 
-require('./status');
+require('./status.js');
 
 client.on('guildCreate', async (guild) => {
   try {
