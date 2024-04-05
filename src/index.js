@@ -2,23 +2,26 @@ const { Client, Intents, Collection } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v10');
 const fs = require('fs');
+const path = require('path');
 const dotenv = require('dotenv');
 const language = require('./language/language_setup.js');
 
 dotenv.config();
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-const commands = new Collection();
-
 const token = process.env.BOT_TOKEN;
 
-const commandFolders = fs.readdirSync('./commands');
+const commands = new Collection();
+const commandsDirectory = path.join(__dirname, 'commands');
+const commandFolders = fs.readdirSync(commandsDirectory);
 for (const folder of commandFolders) {
-  const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
-  for (const file of commandFiles) {
-    const command = require(`./commands/${folder}/${file}`);
-    commands.set(command.data.name, command);
-  }
+    const folderPath = path.join(commandsDirectory, folder);
+    const commandFiles = fs.readdirSync(folderPath).filter(file => file.endsWith('.js'));
+    for (const file of commandFiles) {
+        const filePath = path.join(folderPath, file);
+        const command = require(filePath);
+        commands.set(command.data.name, command);
+    }
 }
 
 client.once('ready', () => {
