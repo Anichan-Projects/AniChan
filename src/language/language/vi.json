@@ -30,9 +30,13 @@
 		"minute": "phút",
 		"retry": "Thử lại sau"
 	},
-	"anime": {
+	"anime_season": {
 		"command_description": "Tìm kiếm thông tin về một bộ anime cụ thể.",
 		"anime_name": "Tên anime"
+	},
+	"anime": {
+		"command_description": "Lấy danh sách lịch phát sóng anime mùa hiện tại.",
+		"schedule_title": "Danh sách lịch anime phát sóng"
 	},
 	"character": {
 		"command_description": "Tìm kiếm thông tin về một nhân vật cụ thể.",

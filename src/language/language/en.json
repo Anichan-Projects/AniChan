@@ -30,6 +30,11 @@
 		"minute": "minute",
 		"retry": "Retry"
 	},
+	"anime_season": {
+		"command_description": "Get the anime schedule for a current season.",
+		"anime_name": "Schedule list",
+		"schedule_title": "anime_schedule.schedule_title"
+	},
 	"anime": {
 		"command_description": "Search for information about a specific anime.",
 		"anime_name": "Anime name"
@@ -56,7 +61,6 @@
 		"appears_episode": "Appears in episode: ",
 		"file_too_large": "File too large. Maximum file size is 25MB.",
 		"tracemoe_api_limit": "The request limit for the trace.moe server has been reached. Please try again later."
-
 	},
 	"staff": {
 		"command_description": "Search for information about a specific staff.",
