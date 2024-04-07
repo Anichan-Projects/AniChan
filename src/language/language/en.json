@@ -30,6 +30,11 @@
 		"minute": "minute",
 		"retry": "Retry"
 	},
+	"help": {
+		"command_description": "Shows the usage and functions of all commands.",
+		"command_title": "Command list",
+		"embed_description": "List of available commands:"
+	},
 	"anime_season": {
 		"command_description": "Get the anime schedule for a current season.",
 		"anime_name": "Schedule list",

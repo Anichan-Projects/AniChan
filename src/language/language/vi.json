@@ -30,6 +30,11 @@
 		"minute": "phút",
 		"retry": "Thử lại sau"
 	},
+	"help": {
+		"command_description": "Hiển thị cách sử dụng và chức năng của tất cả các lệnh.",
+		"command_title": "Danh sách các lệnh",
+		"embed_description": "Dưới đây là danh sách lệnh có sẵn: "
+	},
 	"anime_season": {
 		"command_description": "Tìm kiếm thông tin về một bộ anime cụ thể.",
 		"anime_name": "Tên anime"
