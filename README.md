@@ -16,9 +16,9 @@ AniChan is a bot for browsing AniList from within Discord using JavaScript. You 
 
 - Edit the variables in the `.env-exmaple` file then rename the file to `.env`
 
-- Start the bot with the command: `npm run start` or `node index.js`
+- Start the bot with the command: `npm run start` or `node ./src/index.js`
 
-- For debugging: use the command: `npm run debug` or `nodemon index.js`
+- For debugging: use the command: `npm run debug` or `nodemon ./src/index.js`
 
 ## Features
 
