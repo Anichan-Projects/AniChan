@@ -47,6 +47,7 @@ And many other features.
 - `/staff`: Get basic information about staff.
 
 ### Other Commands
+- `/help`: Get bot command list.
 - `/ping`: Get bot ping.
 - `/avatar`: Get user avatar.
 - `/ascii`: Convert text to AscII code.
