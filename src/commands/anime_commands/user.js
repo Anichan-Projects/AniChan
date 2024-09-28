@@ -1,13 +1,12 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
-const axios = require('axios');
+const { EmbedBuilder } = require('discord.js');
 const language = require('./../../language/language_setup.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('user')
-    .setDescription(`${language.__n('user.command_description')}`)
-    .addStringOption(option => option.setName('username').setDescription(`${language.__n('user.user_name')}`).setRequired(true)),
+      .setName('user')
+      .setDescription(`${language.__n('user.command_description')}`)
+      .addStringOption(option => option.setName('username').setDescription(`${language.__n('user.user_name')}`).setRequired(true)),
   async execute(interaction) {
     const username = interaction.options.getString('username');
 
@@ -36,49 +35,56 @@ module.exports = {
         }
       `;
 
-      const response = await axios.post('https://graphql.anilist.co', {
-        query,
-        variables: { username },
+      const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+      const response = await fetch('https://graphql.anilist.co', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({ query, variables: { username } })
       });
 
-      const userData = response.data.data.User;
+      const data = await response.json();
+      const userData = data.data.User;
 
       if (!userData) {
-        return interaction.reply(`${language.__n(`global.no_results`)}: **${username}**`);
+        return interaction.reply(`${language.__n('global.no_results')}: **${username}**`);
       }
-      const embed = new MessageEmbed()
-        .setTitle(userData.name)
-        .setURL(userData.siteUrl)
-        .setColor('#C6FFFF')
-        .addFields(
-          {
-            name: 'Đã xem',
-            value: `${userData.statistics.anime.count} ${language.__n('user.anime_count')}.`,
-            inline: true,
-          },
-          {
-            name: 'Đã xem',
-            value: `${userData.statistics.anime.minutesWatched} ${language.__n('user.manga_count')}`,
-            inline: true,
-          },
-          {
-            name: 'Đã xem',
-            value: `${userData.statistics.manga.count} ${language.__n('user.minutes_watched')}.`,
-            inline: true,
-          },
-          {
-            name: 'Đã đọc',
-            value: `${userData.statistics.manga.chaptersRead} ${language.__n('user.chapters_read')}.`,
-            inline: true,
-          }
-        )
-        .setThumbnail(userData.avatar.large)
-        .setTimestamp();
+
+      const embed = new EmbedBuilder()
+          .setTitle(userData.name)
+          .setURL(userData.siteUrl)
+          .setColor('#C6FFFF')
+          .addFields(
+              {
+                name: 'Đã xem',
+                value: `${userData.statistics.anime.count} ${language.__n('user.anime_count')}.`,
+                inline: true,
+              },
+              {
+                name: 'Đã xem',
+                value: `${userData.statistics.anime.minutesWatched} ${language.__n('user.manga_count')}`,
+                inline: true,
+              },
+              {
+                name: 'Đã xem',
+                value: `${userData.statistics.manga.count} ${language.__n('user.minutes_watched')}.`,
+                inline: true,
+              },
+              {
+                name: 'Đã đọc',
+                value: `${userData.statistics.manga.chaptersRead} ${language.__n('user.chapters_read')}.`,
+                inline: true,
+              }
+          )
+          .setThumbnail(userData.avatar.large)
+          .setTimestamp();
 
       interaction.reply({ embeds: [embed] });
     } catch (error) {
-      console.error(`${language.__n(`global.error`)}`, error.response);
-      interaction.reply(`${language.__n(`global.error_reply`)}`);
+      console.error(`${language.__n('global.error')}`, error);
+      interaction.reply(`${language.__n('global.error_reply')}`);
     }
   },
 };

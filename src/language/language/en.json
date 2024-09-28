@@ -11,6 +11,7 @@
 		"server_register_error": "Error when registering command for server: ",
 		"preview_button": "Preview",
 		"next_button": "Next",
+		"page": "Page",
 		"unnavailable": "Unavailable",
 		"no_description": "No description.",
 		"description": "Description",
@@ -65,7 +66,9 @@
 		"similarity": "Similarity",
 		"appears_episode": "Appears in episode: ",
 		"file_too_large": "File too large. Maximum file size is 25MB.",
-		"tracemoe_api_limit": "The request limit for the trace.moe server has been reached. Please try again later."
+		"tracemoe_api_limit": "The request limit for the trace.moe server has been reached. Please try again later.",
+		"image_option": "upload option",
+		"upload_image": "Upload image"
 	},
 	"staff": {
 		"command_description": "Search for information about a specific staff.",
@@ -80,7 +83,7 @@
 		"product_list": "List of anime produced by the studio"
 	},
 	"trending": {
-		"command_description": "Get a list of trending anime on AniList.",
+		"command_description": "Get a list of 10 trending anime on AniList.",
 		"trending_title": "Trending anime",
 		"trending_description": "Description"
 	},
@@ -118,15 +121,30 @@
 	},
 	"language": {
 		"command_description": "Change the bot's language",
-		"language_option": "Language (en, vi)",
 		"language_switch": "Bot language has been set to:",
-		"respone_language": "Response language has been set to: "
+		"response_language": "Response language has been set to: ",
+		"language": "language",
+		"select_language": "Select language",
+		"language_option": "Language list"
 	},
-	"en": "English",
-	"vi": "Vietnamese",
 	"langlist": {
 		"command_description": "Get a list of available language & current language.",
 		"title": "Current language:",
 		"description": "Language list: "
-	}
+	},
+	"bot_stats": {
+		"description": "Get bot information.",
+		"title": "Bot information",
+		"uptime": "Uptime",
+		"version": "Version",
+		"disk_usage": "Disk usage",
+		"os": "Operating system",
+		"node": "Node.js version",
+		"library": "Library version"
+	},
+	"popular": {
+		"command_description": "Get the list of 10 popular anime on AniList."
+	},
+	"en": "English",
+	"vi": "Vietnamese"
 }

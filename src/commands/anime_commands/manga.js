@@ -1,94 +1,110 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
-const axios = require('axios');
+const { EmbedBuilder } = require('discord.js');
 const language = require('./../../language/language_setup.js');
 
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName('manga')
-    .setDescription(`${language.__n(`manga.command_description`)}`)
-    .addStringOption(option => option.setName('name').setDescription(`${language.__n(`manga.manga_name`)}`).setRequired(true)),
-  async execute(interaction) {
-    const MangaName = interaction.options.getString('name');
+    data: new SlashCommandBuilder()
+        .setName('manga')
+        .setDescription(`${language.__n('manga.command_description')}`)
+        .addStringOption(option => option.setName('name').setDescription(`${language.__n('manga.manga_name')}`).setRequired(true)),
+    async execute(interaction) {
+        const mangaName = interaction.options.getString('name');
 
-    try {
-      const response = await axios.post('https://graphql.anilist.co', {
-        query: `
-          query ($name: String) {
-            Media (search: $name, type: MANGA) {
-              id
-              siteUrl
-              title {
-                romaji
+        const query = `
+      query ($name: String) {
+        Media (search: $name, type: MANGA) {
+          id
+          siteUrl
+          title {
+            romaji
+          }
+          description
+          coverImage {
+            large
+          }
+          chapters
+          genres
+          averageScore
+          meanScore
+          studios(isMain: true) {
+            edges {
+              node {
+                name
               }
-              description
-              coverImage {
-                large
-              }
-              chapters
-              genres
-              averageScore
-              meanScore
-              studios(isMain: true) {
-                edges {
-                  node {
-                    name
-                  }
-                }
-              }
-              genres
             }
           }
-        `,
-        variables: { name: MangaName },
-      });
-
-      const MangaData = response.data.data.Media;
-
-      if (!MangaData) {
-        return interaction.reply(`${language.__n(`global.no_results`)} **${MangaName}**`);
+          genres
+        }
       }
+    `;
 
-      const MangaGenre = MangaData.genres;
-      if (MangaGenre.includes('Ecchi') || MangaGenre.includes('Hentai')) {
-        return interaction.reply(`**${language.__n(`global.nsfw_block`)} ${animeName}**\n${language.__n(`global.nsfw_block_reason`)}`);
-      }
+        const variables = { name: mangaName };
 
-      const description = MangaData.description ? MangaData.description.slice(0, 500) + '...' : 'Không có thông tin.';
+        try {
+            const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+            const response = await fetch('https://graphql.anilist.co', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: query,
+                    variables: variables
+                })
+            });
 
-      const embed = new MessageEmbed()
-        .setTitle(MangaData.title.romaji)
-        .setURL(MangaData.siteUrl)
-        .setDescription(description)
-        .addFields(
-          {
-             name: `${language.__n(`global.chapters`)}`, 
-             value: MangaData.chapters ? Manga.chapters : `${language.__n(`global.unavailable`)}`, 
-             inline: true 
-          },
-          {
-             name: `${language.__n(`global.genres`)}`, 
-             value: MangaData.genres.join(', '), 
-             inline: true 
-          },
-          {
-             name: `${language.__n(`global.average_score`)}`,
-             value: `${MangaData.averageScore}/100`, 
-             inline: true 
-          },
-          {
-             name: `${language.__n(`global.mean_score`)}`, 
-             value: `${MangaData.meanScore ? MangaData.meanScore + '/100' : `${language.__n(`global.unavailable`)}`}`, 
-             inline: true 
-          },
-        )
-        .setImage(MangaData.coverImage.large)
-        .setTimestamp();
+            const data = await response.json();
+            const mangaData = data.data.Media;
 
-      interaction.reply({ embeds: [embed] });
-    } catch (error) {
-      console.error(`${language.__n(`global.error`)}`, error.response);
-      interaction.reply(`${language.__n(`global.error_reply`)}`);
-    }
-  },
+            if (!mangaData) {
+                return interaction.reply(`${language.__n('global.no_results')} **${mangaName}**`);
+            }
+
+            const mangaGenre = mangaData.genres;
+            if (mangaGenre.includes('Ecchi') || mangaGenre.includes('Hentai')) {
+                return interaction.reply(`**${language.__n('global.nsfw_block')} ${mangaName}**\n${language.__n('global.nsfw_block_reason')}`);
+            }
+
+            const description = mangaData.description ? mangaData.description.slice(0, 500) + '...' : 'Không có thông tin.';
+
+            const embed = new EmbedBuilder()
+                .setTitle(mangaData.title.romaji)
+                .setURL(mangaData.siteUrl)
+                .setDescription(description)
+                .addFields(
+                    {
+                        name: `${language.__n('global.chapters')}`,
+                        value: mangaData.chapters ? mangaData.chapters : `${language.__n('global.unavailable')}`,
+                        inline: true
+                    },
+                    {
+                        name: `${language.__n('global.genres')}`,
+                        value: mangaData.genres.join(', '),
+                        inline: true
+                    },
+                    {
+                        name: `${language.__n('global.average_score')}`,
+                        value: `${mangaData.averageScore}/100`,
+                        inline: true
+                    },
+                    {
+                        name: `${language.__n('global.mean_score')}`,
+                        value: `${mangaData.meanScore ? mangaData.meanScore + '/100' : `${language.__n('global.unavailable')}`}`,
+                        inline: true
+                    },
+                )
+                .setImage(mangaData.coverImage.large)
+                .setTimestamp();
+
+            await interaction.reply({ embeds: [embed] });
+        } catch (error) {
+            console.error(`${language.__n('global.error')}`, error);
+            if (interaction.replied || interaction.deferred) {
+                await interaction.editReply(`${language.__n('global.error_reply')}`);
+            } else {
+                await interaction.reply(`${language.__n('global.error_reply')}`);
+            }
+        }
+    },
 };

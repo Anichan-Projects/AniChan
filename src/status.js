@@ -1,7 +1,7 @@
-const { Client, Intents } = require('discord.js');
+const { Client, GatewayIntentBits } = require('discord.js');
 const dotenv = require('dotenv');
 dotenv.config();
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const language = require('./language/language_setup.js');
 
 const activities = [
@@ -23,5 +23,4 @@ client.once('ready', () => {
   }, 10 * 60 * 1000);
 });
 
-client.login(process.env.BOT_TOKEN);
-
+client.login(process.env.BOT_TOKEN).then(() => {});

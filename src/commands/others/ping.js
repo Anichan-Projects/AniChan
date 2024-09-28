@@ -1,11 +1,11 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const language = require('./../../language/language_setup.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('ping')
-        .setDescription(`${language.__n(`ping.description`)}`),
+        .setDescription(`${language.__n('ping.description')}`),
     async execute(interaction) {
         if (interaction.replied || interaction.deferred) {
             return;
@@ -22,7 +22,7 @@ module.exports = {
             pingColor = '#ff0000';
         }
 
-        const pongEmbed = new MessageEmbed()
+        const pongEmbed = new EmbedBuilder()
             .setColor(pingColor)
             .setTitle('Pong')
             .setDescription(`**${ping} ms**`)
@@ -30,4 +30,4 @@ module.exports = {
 
         await interaction.reply({ embeds: [pongEmbed] });
     }
-}
+};

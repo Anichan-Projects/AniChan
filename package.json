@@ -2,7 +2,7 @@
   "name": "anichan",
   "version": "1.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
     "start": "node ./src/index.js",
     "debug": "nodemon ./src/index.js"
@@ -11,15 +11,15 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@discordjs/builders": "^1.6.3",
+    "@discordjs/builders": "^1.9.0",
     "@discordjs/opus": "^0.9.0",
-    "@discordjs/rest": "^1.7.1",
-    "axios": "^1.4.0",
-    "discord-api-types": "^0.37.50",
-    "discord.js": "^13.16.0",
+    "@discordjs/rest": "^2.4.0",
+    "discord-api-types": "^0.37.101",
+    "discord.js": "^14.16.2",
     "dotenv": "^16.3.1",
     "figlet": "^1.7.0",
     "i18n": "^0.15.1",
+    "node-fetch": "^3.3.2",
     "weather-js": "^2.0.0"
   },
   "devDependencies": {
