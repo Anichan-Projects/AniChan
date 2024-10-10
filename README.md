@@ -5,7 +5,7 @@ AniChan is a bot for browsing AniList from within Discord using JavaScript. You 
 ## Install
 
 ### Requirements:
-- [Discord.js v14](https://www.npmjs.com/package/discord.js/v/14.11.0)
+- [Discord.js v14](https://www.npmjs.com/package/discord.js/v/14.16.3)
 - Nodejs: Not lower than version [18.9.0](https://nodejs.org/download/release/v18.9.0/). Recommend: [Nodejs 18](https://nodejs.org/download/release/latest-hydrogen/)
 
 ### Install

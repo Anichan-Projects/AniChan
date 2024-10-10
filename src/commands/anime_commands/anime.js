@@ -40,7 +40,7 @@ module.exports = {
           season
           averageScore
           meanScore
-          studios {
+          studios (isMain: true) {
             edges {
               node {
                 name
@@ -84,7 +84,7 @@ module.exports = {
       if (description && description.length > 400) {
         description = description.slice(0, 400) + '...';
       }
-
+      const embedImage = "https://img.anili.st/media/" + animeData.id;
       const embed = new EmbedBuilder()
           .setTitle(animeData.title.romaji)
           .setURL(animeData.siteUrl)
@@ -98,7 +98,7 @@ module.exports = {
               { name: `${language.__n('global.season')}`, value: `${animeData.season} - ${animeData.startDate.year}`, inline: true },
               { name: `${language.__n('global.studio')}`, value: `${animeData.studios.edges.map(edge => edge.node.name).join(', ')}`, inline: true }
           )
-          .setImage(animeData.coverImage.large)
+          .setImage(embedImage)
           .setTimestamp();
 
       interaction.reply({ embeds: [embed] });

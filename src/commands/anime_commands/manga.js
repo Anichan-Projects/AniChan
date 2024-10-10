@@ -67,7 +67,7 @@ module.exports = {
             }
 
             const description = mangaData.description ? mangaData.description.slice(0, 500) + '...' : 'Không có thông tin.';
-
+            const embedImage = "https://img.anili.st/media/" + mangaData.id;
             const embed = new EmbedBuilder()
                 .setTitle(mangaData.title.romaji)
                 .setURL(mangaData.siteUrl)
@@ -94,7 +94,7 @@ module.exports = {
                         inline: true
                     },
                 )
-                .setImage(mangaData.coverImage.large)
+                .setImage(embedImage)
                 .setTimestamp();
 
             await interaction.reply({ embeds: [embed] });

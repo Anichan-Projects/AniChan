@@ -97,7 +97,7 @@ module.exports = {
                 const graphqlData = await graphqlResponse.json();
                 const media = graphqlData.data.Media;
                 const animename = media.title.english || media.title.romaji || media.title.native;
-                const coverImage = media.coverImage.large;
+                const embedImage = "https://img.anili.st/media/"+ data.result[0].anilist;
                 let description = media.description;
                 if (description && description.length > 400) {
                     description = description.slice(0, 400) + '...';
@@ -117,7 +117,7 @@ module.exports = {
                         { name: `${language.__n('search.appears_episode')}`, value: `${episode}`, inline: true },
                         { name: `${language.__n('search.similarity')}`, value: `${similarity} %`, inline: true }
                     )
-                    .setImage(coverImage);
+                    .setImage(embedImage);
 
                 await interaction.editReply({ embeds: [embed] });
                 commandCooldown.set(interaction.user.id, Date.now());

@@ -12,7 +12,7 @@
 		"preview_button": "Preview",
 		"next_button": "Next",
 		"page": "Page",
-		"unnavailable": "Unavailable",
+		"unavailable": "Unavailable",
 		"no_description": "No description.",
 		"description": "Description",
 		"error": "Error: ",
@@ -60,7 +60,7 @@
 		"manga_name": "Manga name"
 	},
 	"search": {
-		"command_description": "Search anime by image. (Supports maximum file size of 25MB)",
+		"command_description": "Search for anime by scene from the anime.",
 		"image_link": "Image link",
 		"cut_black_borders": "Cut black borders",
 		"similarity": "Similarity",
@@ -89,11 +89,13 @@
 	},
 	"user": {
 		"command_description": "Get information about a specific user.",
+		"readed": "Readed",
+		"viewed": "Watched",
 		"user_name": "User name",
-		"anime_count": "anime count",
-		"manga_count": "manga count",
-		"minutes_watched": "minutes watched",
-		"chapters_read": "chapters read"
+		"anime_count": "Anime",
+		"manga_count": "Managa",
+		"minutes_watched": "Minutes",
+		"chapters_read": "Chapters"
 	},
 	"ascii": {
 		"command_description": "Convert text to ASCII.",
@@ -146,5 +148,20 @@
 		"command_description": "Get the list of 10 popular anime on AniList."
 	},
 	"en": "English",
-	"vi": "Vietnamese"
+	"vi": "Vietnamese",
+	"hyperlink": {
+		"delete": "Delete",
+		"delete_description": "Warning and original message deleted.",
+		"ignore": "Ignore",
+		"ignore_description": "Ignore message and continue the message",
+		"starup_success": "Hyperlink Manager Ready!",
+		"title": "Warning, AniChan detect fake links",
+		"description": "A fake link was detected in message. Check the link carefully before clicking",
+		"sender": "Sender",
+		"displayer_link": "Displayer link",
+		"actual_link": "Actual link",
+		"message_link": "Original message",
+		"jump_message": "Jump to Message",
+		"contribute": "❗ Addon script provided by kizymn"
+	}
 }

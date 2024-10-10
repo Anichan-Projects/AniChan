@@ -55,7 +55,7 @@
 		"manga_name": "Tên manga"
 	},
 	"search": {
-		"command_description": "Tìm kiếm anime bằng hình ảnh. (Hỗ trợ dung lượng ảnh tối đa 25MB)",
+		"command_description": "Tìm kiếm anime bằng hình ảnh có trong phân cảnh của anime.",
 		"image_link": "Liên kết đến hình ảnh",
 		"cut_black_borders": "Cắt bỏ viền đen",
 		"similarity": "Tỉ lệ trùng khớp",
@@ -85,10 +85,12 @@
 	"user": {
 		"command_description": "Xem thông tin về người dùng trên AniList.",
 		"user_name": "Tên người dùng",
+		"readed": "Đã đọc",
+		"viewed": "Đã xem",
 		"anime_count": "bộ anime",
 		"manga_count": "bộ manga",
-		"minutes_watched": "phút đã xem",
-		"chapters_read": "chương đã đọc"
+		"minutes_watched": "Phút",
+		"chapters_read": "Chương"
 	},
 	"ascii": {
 		"command_description": "Chuyển văn bản thành ASCII.",
@@ -139,6 +141,21 @@
 	},
 	"popular": {
 		"command_description": "Lấy danh sách 10 anime phổ biến"
+	},
+	"hyperlink": {
+		"delete": "Xóa",
+		"delete_description": "Đã xóa tin nhắn",
+		"ignore": "Bỏ qua",
+		"ignore_description": "Đã bỏ qua tin nhắn",
+		"starup_success": "Trình quản lí hyperlink đã được khởi động",
+		"title": "AniChan đã phát hiện liên kết giả mạo",
+		"description": "Đã phát hiện một liên kết giả mạo trong tin nhắn này. Hãy kiểm tra kĩ trước khi ấn vào liên kết.",
+		"sender": "Người gửi",
+		"displayer_link": "Liên kết hiển thị",
+		"actual_link": "Liên kết thực",
+		"message_link": "Tin nhắn gốc",
+		"contribute": "❗ Script được cung cấp bởi kizymn",
+		"jump_message": "Nhảy đến tin nhắn"
 	},
 	"en": "Tiếng Anh",
 	"vi": "Tiếng Việt"

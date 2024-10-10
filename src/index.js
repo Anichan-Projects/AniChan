@@ -43,9 +43,9 @@ client.once('ready', async () => {
 
 (async () => {
     await client.login(token);
+    require('./status.js');
+    require('./manager/hyperlink.js');
 })();
-
-require('./status.js');
 
 client.on('guildCreate', async (guild) => {
     try {

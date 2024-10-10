@@ -50,11 +50,12 @@ module.exports = {
             const updateEmbed = () => {
                 const anime = popularAnime[currentPage];
                 const description = anime.description ? anime.description.replace(/<[^>]+>/g, '').slice(0, 250) + '...' : `${language.__n('global.unavailable')}`;
+                const embedImage = "https://img.anili.st/media/" + anime.id;
                 const embed = new EmbedBuilder()
                     .setTitle(anime.title.romaji)
                     .setURL(anime.siteUrl)
                     .setDescription(`__**${language.__n('global.description')}:**__ ${description}\n__**${language.__n('global.average_score')}:**__ ${anime.averageScore}/100\n__**${language.__n('global.mean_score')}:**__ ${anime.meanScore ? anime.meanScore + '/100' : `${language.__n('global.unavailable')}`}\n\n__**${language.__n('global.page')}:**__ ${currentPage + 1}/${popularAnime.length}`)
-                    .setImage(anime.coverImage.large)
+                    .setImage(embedImage)
                     .setTimestamp();
 
                 const row = new ActionRowBuilder()

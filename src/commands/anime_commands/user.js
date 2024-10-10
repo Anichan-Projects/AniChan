@@ -47,7 +47,6 @@ module.exports = {
 
       const data = await response.json();
       const userData = data.data.User;
-
       if (!userData) {
         return interaction.reply(`${language.__n('global.no_results')}: **${username}**`);
       }
@@ -58,22 +57,22 @@ module.exports = {
           .setColor('#C6FFFF')
           .addFields(
               {
-                name: 'Đã xem',
+                name: `${language.__n('user.viewed')}`,
                 value: `${userData.statistics.anime.count} ${language.__n('user.anime_count')}.`,
                 inline: true,
               },
               {
-                name: 'Đã xem',
-                value: `${userData.statistics.anime.minutesWatched} ${language.__n('user.manga_count')}`,
+                name: `${language.__n('user.viewed')}`,
+                value: `${userData.statistics.anime.minutesWatched} ${language.__n('user.minutes_watched')}`,
                 inline: true,
               },
               {
-                name: 'Đã xem',
-                value: `${userData.statistics.manga.count} ${language.__n('user.minutes_watched')}.`,
+                name: `${language.__n('user.readed')}`,
+                value: `${userData.statistics.manga.count} ${language.__n('user.manga_count')}.`,
                 inline: true,
               },
               {
-                name: 'Đã đọc',
+                name: `${language.__n('user.readed')}`,
                 value: `${userData.statistics.manga.chaptersRead} ${language.__n('user.chapters_read')}.`,
                 inline: true,
               }
