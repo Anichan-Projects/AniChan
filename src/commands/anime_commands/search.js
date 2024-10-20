@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js');
+const axios = require('axios');
 const language = require('./../../language/language_setup.js');
 const commandCooldown = new Map();
 
@@ -35,7 +36,7 @@ module.exports = {
                                 .setRequired(true)))),
     async execute(interaction) {
         try {
-            await interaction.deferReply(); // Defer the reply to give more time for processing
+            await interaction.deferReply();
 
             const subcommand = interaction.options.getSubcommand();
             const cutBorders = interaction.options.getBoolean('cut_black_borders');
@@ -65,9 +66,8 @@ module.exports = {
                 apiUrl = 'https://api.trace.moe/search?cutBorders&url=' + encodeURIComponent(imageUrl);
             }
 
-            const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-            const response = await fetch(apiUrl, { method: 'GET' });
-            const data = await response.json();
+            const response = await axios.get(apiUrl);
+            const data = response.data;
 
             if (data.result && data.result.length > 0) {
                 const animeid = data.result[0].anilist;
@@ -85,19 +85,20 @@ module.exports = {
                 `;
 
                 const variables = { id: animeid };
-                const graphqlResponse = await fetch('https://graphql.anilist.co', {
-                    method: 'POST',
+                const graphqlResponse = await axios.post('https://graphql.anilist.co', {
+                    query: query,
+                    variables: variables
+                }, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
-                    },
-                    body: JSON.stringify({ query, variables })
+                    }
                 });
 
-                const graphqlData = await graphqlResponse.json();
+                const graphqlData = graphqlResponse.data;
                 const media = graphqlData.data.Media;
                 const animename = media.title.english || media.title.romaji || media.title.native;
-                const embedImage = "https://img.anili.st/media/"+ data.result[0].anilist;
+                const embedImage = "https://img.anili.st/media/" + animeid;
                 let description = media.description;
                 if (description && description.length > 400) {
                     description = description.slice(0, 400) + '...';
@@ -125,6 +126,7 @@ module.exports = {
                 interaction.editReply(`${language.__n('global.error_reply')}`);
             }
         } catch (error) {
+            console.error(`${language.__n('global.error')}`, error);
             if (interaction.replied || interaction.deferred) {
                 return interaction.editReply(`${language.__n('global.error_reply')}`);
             } else {

@@ -13,13 +13,12 @@
   "dependencies": {
     "@discordjs/builders": "^1.9.0",
     "@discordjs/rest": "^2.4.0",
+    "axios": "^1.7.7",
     "discord-api-types": "^0.37.101",
     "discord.js": "^14.16.3",
     "dotenv": "^16.3.1",
-    "figlet": "^1.7.0",
     "i18n": "^0.15.1",
-    "node-fetch": "^3.3.2",
-    "nodemon": "^3.1.0",
+    "nodemon": "^3.1.7",
     "weather-js": "^2.0.0"
   }
 }

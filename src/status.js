@@ -1,28 +1,26 @@
-const { Client, IntentsBitField } = require("discord.js");
-const language = require("./language/language_setup.js");
-const dotenv = require("dotenv");
+const { Client, GatewayIntentBits } = require('discord.js');
+const dotenv = require('dotenv');
 dotenv.config();
-const client = new Client({
-  intents: [
-    IntentsBitField.Flags.Guilds,
-    IntentsBitField.Flags.GuildMembers,
-    IntentsBitField.Flags.GuildMessages,
-    IntentsBitField.Flags.MessageContent,
-  ],
-});
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const language = require('./language/language_setup.js');
 
-let status = [
-  { name: "Anime", type: 0 },
-  { name: "invite.anichan.asia", type: 0 },
+const activities = [
+  { name: 'watching', type: 'WATCHING', text: 'anime' },
+  { name: 'watching', type: 'WATCHING', text: 'invite.anichan.asia' },
 ];
 
-client.once("ready", () => {
+function setRandomActivity() {
+  const randomActivity = activities[Math.floor(Math.random() * activities.length)];
+  client.user.setActivity(randomActivity.text, { type: randomActivity.type });
+}
+
+client.once('ready', () => {
   console.log(`${language.__n(`global.status_ready`)}`);
 
+  setRandomActivity();
   setInterval(() => {
-    let random = Math.floor(Math.random() * status.length);
-    client.user.setActivity(status[random]);
-  }, 360000);
+    setRandomActivity();
+  }, 10 * 60 * 1000);
 });
 
 client.login(process.env.BOT_TOKEN);

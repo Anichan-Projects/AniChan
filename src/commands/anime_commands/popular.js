@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const axios = require('axios');
 const language = require('./../../language/language_setup.js');
 
 module.exports = {
@@ -7,6 +8,8 @@ module.exports = {
         .setName('popular')
         .setDescription(`${language.__n('popular.command_description')}`),
     async execute(interaction) {
+        await interaction.deferReply();
+
         const query = `
       query {
         Page (perPage: 10) {
@@ -28,23 +31,17 @@ module.exports = {
     `;
 
         try {
-            const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-            const response = await fetch('https://graphql.anilist.co', {
-                method: 'POST',
+            const response = await axios.post('https://graphql.anilist.co', {
+                query: query
+            }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                },
-                body: JSON.stringify({ query })
+                }
             });
 
-            const data = await response.json();
+            const data = response.data;
             const popularAnime = data.data.Page.media;
-            // const genres = popularAnime.genres;
-            // if (genres === "Ecchi" || "Hentai") {
-            //   popularAnime.pop();
-            //   return interaction.reply(`${language.__n('trending.error_reply')}`);
-            // }
             let currentPage = 0;
 
             const updateEmbed = () => {
@@ -75,7 +72,7 @@ module.exports = {
                 return { embeds: [embed], components: [row] };
             };
 
-            await interaction.reply(updateEmbed());
+            await interaction.editReply(updateEmbed());
 
             const filter = i => i.customId === 'prev' || i.customId === 'next';
             const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
@@ -86,7 +83,7 @@ module.exports = {
                 } else if (i.customId === 'next' && currentPage < popularAnime.length - 1) {
                     currentPage++;
                 }
-                await interaction.editReply(updateEmbed());
+                await i.update(updateEmbed());
             });
 
             collector.on('end', () => {
@@ -94,7 +91,11 @@ module.exports = {
             });
         } catch (error) {
             console.error(`${language.__n('global.error')}`, error);
-            interaction.reply(`${language.__n('global.error_reply')}`);
+            if (interaction.replied || interaction.deferred) {
+                await interaction.editReply(`${language.__n('global.error_reply')}`);
+            } else {
+                await interaction.reply(`${language.__n('global.error_reply')}`);
+            }
         }
     },
 };

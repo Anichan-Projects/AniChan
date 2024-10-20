@@ -10,11 +10,18 @@ module.exports = {
         .addStringOption(option => option.setName('location').setDescription(`${language.__n('weather.location')}`).setRequired(true)),
 
     async execute(interaction) {
+        await interaction.deferReply();
+
         const location = interaction.options.getString('location');
 
-        weather.find({ search: location, degreeType: 'C' }, function (error, result) {
-            if (error) return interaction.reply(error);
-            if (result === undefined || result.length === 0) return interaction.reply(`${language.__n('global.error_reply')}`);
+        weather.find({ search: location, degreeType: 'C' }, async function (error, result) {
+            if (error) {
+                console.error(`${language.__n('global.error')}`, error);
+                return interaction.editReply(`${language.__n('global.error_reply')}`);
+            }
+            if (result === undefined || result.length === 0) {
+                return interaction.editReply(`${language.__n('global.error_reply')}`);
+            }
 
             const current = result[0].current;
             const location = result[0].location;
@@ -69,7 +76,7 @@ module.exports = {
                 .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 }) })
                 .setColor('#66FFFF');
 
-            interaction.reply({ embeds: [embed] });
+            await interaction.editReply({ embeds: [embed] });
         });
     },
 };

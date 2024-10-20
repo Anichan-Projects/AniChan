@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js');
+const axios = require('axios');
 const language = require('./../../language/language_setup.js');
 
 module.exports = {
@@ -8,6 +9,8 @@ module.exports = {
       .setDescription(`${language.__n('anime.command_description')}`)
       .addStringOption(option => option.setName('name').setDescription(`${language.__n('anime.anime_name')}`).setRequired(true)),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const animeName = interaction.options.getString('name');
 
     const query = `
@@ -40,7 +43,7 @@ module.exports = {
           season
           averageScore
           meanScore
-          studios (isMain: true) {
+          studios(isMain: true) {
             edges {
               node {
                 name
@@ -55,36 +58,38 @@ module.exports = {
     const variables = { name: animeName };
 
     try {
-      const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-      const response = await fetch('https://graphql.anilist.co', {
-        method: 'POST',
+      const response = await axios.post('https://graphql.anilist.co', {
+        query: query,
+        variables: variables
+      }, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          query: query,
-          variables: variables
-        })
+        }
       });
 
-      const data = await response.json();
+      const data = response.data;
       const animeData = data.data.Media;
 
       if (!animeData) {
-        return interaction.reply(`${language.__n('global.no_results')} **${animeName}**`);
+        return interaction.editReply(`${language.__n('global.no_results')} **${animeName}**`);
       }
 
       const genres = animeData.genres;
       if (genres.includes('Ecchi') || genres.includes('Hentai')) {
-        return interaction.reply(`**${language.__n('global.nsfw_block')} ${animeName}**\n${language.__n('global.nsfw_block_reason')}`);
+        return interaction.editReply(`**${language.__n('global.nsfw_block')} ${animeName}**\n${language.__n('global.nsfw_block_reason')}`);
       }
 
       let description = animeData.description;
-      if (description && description.length > 400) {
-        description = description.slice(0, 400) + '...';
+      if (description) {
+        description = description.replace(/\n*<br>/g, '');
+        if (description.length > 400) {
+          description = description.slice(0, 600) + '...';
+        }
       }
+
       const embedImage = "https://img.anili.st/media/" + animeData.id;
+
       const embed = new EmbedBuilder()
           .setTitle(animeData.title.romaji)
           .setURL(animeData.siteUrl)
@@ -101,10 +106,14 @@ module.exports = {
           .setImage(embedImage)
           .setTimestamp();
 
-      interaction.reply({ embeds: [embed] });
+      interaction.editReply({ embeds: [embed] });
     } catch (error) {
       console.error(`${language.__n('global.error')}`, error);
-      interaction.reply(`${language.__n('global.error_reply')}`);
+      if (interaction.replied || interaction.deferred) {
+        await interaction.editReply(`${language.__n('global.error_reply')}`);
+      } else {
+        await interaction.reply(`${language.__n('global.error_reply')}`);
+      }
     }
   },
 };

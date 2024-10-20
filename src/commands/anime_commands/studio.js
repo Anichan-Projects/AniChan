@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const axios = require('axios');
 const language = require('./../../language/language_setup.js');
 
 module.exports = {
@@ -8,6 +9,8 @@ module.exports = {
         .setDescription(`${language.__n('studio.command_description')}`)
         .addStringOption(option => option.setName('name').setDescription(`${language.__n('studio.studio_name')}`).setRequired(true)),
     async execute(interaction) {
+        await interaction.deferReply();
+
         const studioName = interaction.options.getString('name');
 
         const query = `
@@ -35,24 +38,21 @@ module.exports = {
         const variables = { search: studioName };
 
         try {
-            const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-            const response = await fetch('https://graphql.anilist.co', {
-                method: 'POST',
+            const response = await axios.post('https://graphql.anilist.co', {
+                query: query,
+                variables: variables
+            }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                },
-                body: JSON.stringify({
-                    query: query,
-                    variables: variables
-                })
+                }
             });
 
-            const data = await response.json();
+            const data = response.data;
             const studioData = data.data.Studio;
 
             if (!studioData) {
-                return interaction.reply(`${language.__n('global.no_results')} **${studioName}**`);
+                return interaction.editReply(`${language.__n('global.no_results')} **${studioName}**`);
             }
 
             const animeList = studioData.media.nodes.map((anime, index) => {
@@ -71,30 +71,30 @@ module.exports = {
                 const endIdx = startIdx + pageSize;
                 const displayedAnime = animeList.split('\n').slice(startIdx, endIdx).join('\n');
 
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setTitle(`${language.__n('studio.studio_info')} ${studioData.name}`)
                     .setURL(studioData.siteUrl)
                     .setDescription(`${language.__n('studio.product_list')} ${studioData.name}:\n${displayedAnime}`)
                     .setTimestamp();
 
-                const row = new MessageActionRow()
+                const row = new ActionRowBuilder()
                     .addComponents(
-                        new MessageButton()
+                        new ButtonBuilder()
                             .setCustomId('prev')
                             .setLabel(`${language.__n('global.preview_button')}`)
-                            .setStyle('PRIMARY')
+                            .setStyle(ButtonStyle.Primary)
                             .setDisabled(currentPage === 0),
-                        new MessageButton()
+                        new ButtonBuilder()
                             .setCustomId('next')
                             .setLabel(`${language.__n('global.next_button')}`)
-                            .setStyle('PRIMARY')
+                            .setStyle(ButtonStyle.Primary)
                             .setDisabled(currentPage === totalPages - 1)
                     );
 
                 return { embeds: [embed], components: [row] };
             };
 
-            await interaction.reply(updateEmbed());
+            await interaction.editReply(updateEmbed());
 
             const filter = i => i.customId === 'prev' || i.customId === 'next';
             const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
@@ -113,7 +113,11 @@ module.exports = {
             });
         } catch (error) {
             console.error(`${language.__n('global.error')}`, error);
-            interaction.reply(`${language.__n('global.error_reply')}`);
+            if (interaction.replied || interaction.deferred) {
+                await interaction.editReply(`${language.__n('global.error_reply')}`);
+            } else {
+                await interaction.reply(`${language.__n('global.error_reply')}`);
+            }
         }
     },
 };

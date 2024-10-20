@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js');
+const axios = require('axios');
 const language = require('./../../language/language_setup.js');
 
 module.exports = {
@@ -8,6 +9,8 @@ module.exports = {
         .setDescription(`${language.__n('manga.command_description')}`)
         .addStringOption(option => option.setName('name').setDescription(`${language.__n('manga.manga_name')}`).setRequired(true)),
     async execute(interaction) {
+        await interaction.deferReply();
+
         const mangaName = interaction.options.getString('name');
 
         const query = `
@@ -41,33 +44,32 @@ module.exports = {
         const variables = { name: mangaName };
 
         try {
-            const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-            const response = await fetch('https://graphql.anilist.co', {
-                method: 'POST',
+            const response = await axios.post('https://graphql.anilist.co', {
+                query: query,
+                variables: variables
+            }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                },
-                body: JSON.stringify({
-                    query: query,
-                    variables: variables
-                })
+                }
             });
 
-            const data = await response.json();
+            const data = response.data;
             const mangaData = data.data.Media;
 
             if (!mangaData) {
-                return interaction.reply(`${language.__n('global.no_results')} **${mangaName}**`);
+                return interaction.editReply(`${language.__n('global.no_results')} **${mangaName}**`);
             }
 
             const mangaGenre = mangaData.genres;
             if (mangaGenre.includes('Ecchi') || mangaGenre.includes('Hentai')) {
-                return interaction.reply(`**${language.__n('global.nsfw_block')} ${mangaName}**\n${language.__n('global.nsfw_block_reason')}`);
+                return interaction.editReply(`**${language.__n('global.nsfw_block')} ${mangaName}**\n${language.__n('global.nsfw_block_reason')}`);
             }
 
             const description = mangaData.description ? mangaData.description.slice(0, 500) + '...' : 'Không có thông tin.';
+
             const embedImage = "https://img.anili.st/media/" + mangaData.id;
+            console.log(embedImage);
             const embed = new EmbedBuilder()
                 .setTitle(mangaData.title.romaji)
                 .setURL(mangaData.siteUrl)
@@ -97,7 +99,7 @@ module.exports = {
                 .setImage(embedImage)
                 .setTimestamp();
 
-            await interaction.reply({ embeds: [embed] });
+            await interaction.editReply({ embeds: [embed] });
         } catch (error) {
             console.error(`${language.__n('global.error')}`, error);
             if (interaction.replied || interaction.deferred) {

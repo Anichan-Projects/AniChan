@@ -11,21 +11,32 @@ module.exports = {
                 .setDescription(`${language.__n('avatar.user_name')}`)
                 .setRequired(true)),
     async execute(interaction) {
-        const user = interaction.options.getUser('user');
-        const member = interaction.guild.members.cache.find(m => m.user.id === user.id) || interaction.member;
+        await interaction.deferReply();
 
-        const avatar = member.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 });
+        try {
+            const user = interaction.options.getUser('user');
+            const member = interaction.guild.members.cache.find(m => m.user.id === user.id) || interaction.member;
 
-        const embed = new EmbedBuilder()
-            .setTitle(`${member.user.username} Avatar`)
-            .setURL(avatar)
-            .setImage(avatar)
-            .setFooter({
-                text: `${language.__n('avatar.requested_by')}: ${interaction.user.username}`,
-                iconURL: interaction.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 })
-            })
-            .setColor('#eb3434');
+            const avatar = member.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 });
 
-        await interaction.reply({ embeds: [embed] });
+            const embed = new EmbedBuilder()
+                .setTitle(`${member.user.username} Avatar`)
+                .setURL(avatar)
+                .setImage(avatar)
+                .setFooter({
+                    text: `${language.__n('avatar.requested_by')}: ${interaction.user.username}`,
+                    iconURL: interaction.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 })
+                })
+                .setColor('#eb3434');
+
+            await interaction.editReply({ embeds: [embed] });
+        } catch (error) {
+            console.error(`${language.__n('global.error')}`, error);
+            if (interaction.replied || interaction.deferred) {
+                await interaction.editReply(`${language.__n('global.error_reply')}`);
+            } else {
+                await interaction.reply(`${language.__n('global.error_reply')}`);
+            }
+        }
     },
 };

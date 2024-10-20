@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js');
+const axios = require('axios');
 const language = require('./../../language/language_setup.js');
 
 module.exports = {
@@ -8,6 +9,8 @@ module.exports = {
       .setDescription(`${language.__n('character_search.command_description')}`)
       .addStringOption(option => option.setName('character').setDescription(`${language.__n('character_search.command_description')}`).setRequired(true)),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const character = interaction.options.getString('character');
 
     const query = `
@@ -34,24 +37,21 @@ module.exports = {
     const variables = { character };
 
     try {
-      const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-      const response = await fetch('https://graphql.anilist.co', {
-        method: 'POST',
+      const response = await axios.post('https://graphql.anilist.co', {
+        query: query,
+        variables: variables
+      }, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          query: query,
-          variables: variables
-        })
+        }
       });
 
-      const data = await response.json();
+      const data = response.data;
       const characterData = data.data.Character;
 
       if (!characterData) {
-        return interaction.reply(`${language.__n('global.no_results')} **${character}**`);
+        return interaction.editReply(`${language.__n('global.no_results')} **${character}**`);
       }
 
       const embed = new EmbedBuilder()
@@ -64,7 +64,7 @@ module.exports = {
         embed.addFields({ name: animeTitle, value: '\u200B', inline: false });
       });
 
-      await interaction.reply({ embeds: [embed] });
+      await interaction.editReply({ embeds: [embed] });
     } catch (error) {
       console.error(`${language.__n('global.error')}`, error);
       if (interaction.replied || interaction.deferred) {

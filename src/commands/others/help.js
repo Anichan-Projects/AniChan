@@ -9,6 +9,8 @@ module.exports = {
         .setName("help")
         .setDescription(`${language.__n(`help.command_description`)}`),
     async execute(interaction) {
+        await interaction.deferReply();
+
         try {
             const embed = new EmbedBuilder()
                 .setTitle(`${language.__n(`help.command_title`)}`)
@@ -29,10 +31,14 @@ module.exports = {
                 }
             }
 
-            interaction.reply({ embeds: [embed] });
+            await interaction.editReply({ embeds: [embed] });
         } catch (error) {
             console.error(`${language.__n(`global.error`)}`, error);
-            interaction.reply(`${language.__n(`global.error_reply`)}`);
+            if (interaction.replied || interaction.deferred) {
+                await interaction.editReply(`${language.__n(`global.error_reply`)}`);
+            } else {
+                await interaction.reply(`${language.__n(`global.error_reply`)}`);
+            }
         }
     },
 };

@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const axios = require('axios');
 const language = require('./../../language/language_setup.js');
 
 module.exports = {
@@ -7,50 +8,46 @@ module.exports = {
       .setName('trending')
       .setDescription(`${language.__n('trending.command_description')}`),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const query = `
-      query {
-        Page (perPage: 10) {
-          media (sort: TRENDING_DESC, type: ANIME) {
-            id
-            siteUrl
-            title {
-              romaji
+            query {
+                Page (perPage: 10) {
+                    media (sort: TRENDING_DESC, type: ANIME) {
+                        id
+                        siteUrl
+                        title {
+                            romaji
+                        }
+                        description
+                        coverImage {
+                            large
+                        }
+                        averageScore
+                        meanScore
+                    }
+                }
             }
-            description
-            coverImage {
-              large
-            }
-            averageScore
-            meanScore
-          }
-        }
-      }
-    `;
+        `;
 
     try {
-      const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-      const response = await fetch('https://graphql.anilist.co', {
-        method: 'POST',
+      const response = await axios.post('https://graphql.anilist.co', {
+        query: query
+      }, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-        },
-        body: JSON.stringify({ query })
+        }
       });
 
-      const data = await response.json();
+      const data = response.data;
       const trendingAnime = data.data.Page.media;
-      // const genres = trendingAnime.genres;
-      // if (genres === "Ecchi" || "Hentai") {
-      //   trendingAnime.pop();
-      //   return interaction.reply(`${language.__n('global.error_reply')}`);
-      // }
       let currentPage = 0;
 
       const updateEmbed = () => {
         const anime = trendingAnime[currentPage];
-        const embedImage = "https://img.anili.st/media/" + anime.id;
         const description = anime.description ? anime.description.replace(/<[^>]+>/g, '').slice(0, 250) + '...' : `${language.__n('global.unavailable')}`;
+        const embedImage = "https://img.anili.st/media/" + anime.id;
         const embed = new EmbedBuilder()
             .setTitle(anime.title.romaji)
             .setURL(anime.siteUrl)
@@ -75,7 +72,7 @@ module.exports = {
         return { embeds: [embed], components: [row] };
       };
 
-      await interaction.reply(updateEmbed());
+      await interaction.editReply(updateEmbed());
 
       const filter = i => i.customId === 'prev' || i.customId === 'next';
       const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
@@ -94,7 +91,11 @@ module.exports = {
       });
     } catch (error) {
       console.error(`${language.__n('global.error')}`, error);
-      interaction.reply(`${language.__n('global.error_reply')}`);
+      if (interaction.replied || interaction.deferred) {
+        await interaction.editReply(`${language.__n('global.error_reply')}`);
+      } else {
+        await interaction.reply(`${language.__n('global.error_reply')}`);
+      }
     }
   },
 };

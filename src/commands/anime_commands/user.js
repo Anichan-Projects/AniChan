@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js');
+const axios = require('axios');
 const language = require('./../../language/language_setup.js');
 
 module.exports = {
@@ -8,47 +9,50 @@ module.exports = {
       .setDescription(`${language.__n('user.command_description')}`)
       .addStringOption(option => option.setName('username').setDescription(`${language.__n('user.user_name')}`).setRequired(true)),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const username = interaction.options.getString('username');
 
-    try {
-      const query = `
-        query ($username: String) {
-          User(name: $username) {
-            id
-            name
-            about
-            siteUrl
-            avatar {
-              large
+    const query = `
+      query ($username: String) {
+        User(name: $username) {
+          id
+          name
+          about
+          siteUrl
+          avatar {
+            large
+          }
+          statistics {
+            anime {
+              count
+              minutesWatched
             }
-            statistics {
-              anime {
-                count
-                minutesWatched
-              }
-              manga {
-                count
-                chaptersRead
-              }
+            manga {
+              count
+              chaptersRead
             }
           }
         }
-      `;
+      }
+    `;
 
-      const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-      const response = await fetch('https://graphql.anilist.co', {
-        method: 'POST',
+    try {
+      const response = await axios.post('https://graphql.anilist.co', {
+        query: query,
+        variables: { username }
+      }, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-        },
-        body: JSON.stringify({ query, variables: { username } })
+        }
       });
 
-      const data = await response.json();
+      const data = response.data;
       const userData = data.data.User;
+
       if (!userData) {
-        return interaction.reply(`${language.__n('global.no_results')}: **${username}**`);
+        return interaction.editReply(`${language.__n('global.no_results')}: **${username}**`);
       }
 
       const embed = new EmbedBuilder()
@@ -57,22 +61,22 @@ module.exports = {
           .setColor('#C6FFFF')
           .addFields(
               {
-                name: `${language.__n('user.viewed')}`,
+                name: 'Đã xem',
                 value: `${userData.statistics.anime.count} ${language.__n('user.anime_count')}.`,
                 inline: true,
               },
               {
-                name: `${language.__n('user.viewed')}`,
-                value: `${userData.statistics.anime.minutesWatched} ${language.__n('user.minutes_watched')}`,
+                name: 'Đã xem',
+                value: `${userData.statistics.anime.minutesWatched} ${language.__n('user.manga_count')}`,
                 inline: true,
               },
               {
-                name: `${language.__n('user.readed')}`,
-                value: `${userData.statistics.manga.count} ${language.__n('user.manga_count')}.`,
+                name: 'Đã xem',
+                value: `${userData.statistics.manga.count} ${language.__n('user.minutes_watched')}.`,
                 inline: true,
               },
               {
-                name: `${language.__n('user.readed')}`,
+                name: 'Đã đọc',
                 value: `${userData.statistics.manga.chaptersRead} ${language.__n('user.chapters_read')}.`,
                 inline: true,
               }
@@ -80,10 +84,14 @@ module.exports = {
           .setThumbnail(userData.avatar.large)
           .setTimestamp();
 
-      interaction.reply({ embeds: [embed] });
+      await interaction.editReply({ embeds: [embed] });
     } catch (error) {
       console.error(`${language.__n('global.error')}`, error);
-      interaction.reply(`${language.__n('global.error_reply')}`);
+      if (interaction.replied || interaction.deferred) {
+        await interaction.editReply(`${language.__n('global.error_reply')}`);
+      } else {
+        await interaction.reply(`${language.__n('global.error_reply')}`);
+      }
     }
   },
 };
