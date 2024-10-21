@@ -1,12 +1,12 @@
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
 const dotenv = require('dotenv');
 dotenv.config();
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const language = require('./language/language_setup.js');
 
 const activities = [
-  { name: 'watching', type: 'WATCHING', text: 'anime' },
-  { name: 'watching', type: 'WATCHING', text: 'invite.anichan.asia' },
+  { type: ActivityType.Watching, text: 'anime' },
+  { type: ActivityType.Watching, text: 'invite.anichan.asia' },
 ];
 
 function setRandomActivity() {
