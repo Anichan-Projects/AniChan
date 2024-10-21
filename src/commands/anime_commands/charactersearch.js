@@ -9,34 +9,34 @@ module.exports = {
       .setDescription(`${language.__n('character_search.command_description')}`)
       .addStringOption(option => option.setName('character').setDescription(`${language.__n('character_search.command_description')}`).setRequired(true)),
   async execute(interaction) {
-    await interaction.deferReply();
+    try {
+      await interaction.deferReply();
 
-    const character = interaction.options.getString('character');
+      const character = interaction.options.getString('character');
 
-    const query = `
-      query ($character: String) {
-        Character (search: $character) {
-          name {
-            full
-          }
-          media {
-            nodes {
-              id
-              title {
-                romaji
-              }
-              coverImage {
-                large
+      const query = `
+        query ($character: String) {
+          Character (search: $character) {
+            name {
+              full
+            }
+            media {
+              nodes {
+                id
+                title {
+                  romaji
+                }
+                coverImage {
+                  large
+                }
               }
             }
           }
         }
-      }
-    `;
+      `;
 
-    const variables = { character };
+      const variables = { character };
 
-    try {
       const response = await axios.post('https://graphql.anilist.co', {
         query: query,
         variables: variables

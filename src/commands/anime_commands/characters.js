@@ -9,36 +9,36 @@ module.exports = {
       .setDescription(`${language.__n('character.command_description')}`)
       .addStringOption(option => option.setName('name').setDescription(`${language.__n('character.character_name')}`).setRequired(true)),
   async execute(interaction) {
-    await interaction.deferReply();
+    try {
+      await interaction.deferReply();
 
-    const characterName = interaction.options.getString('name');
+      const characterName = interaction.options.getString('name');
 
-    const query = `
-      query ($search: String) {
-        Character(search: $search) {
-          id
-          siteUrl
-          name {
-            full
-          }
-          image {
-            large
-          }
-          description
-          media {
-            nodes {
-              title {
-                romaji
+      const query = `
+        query ($search: String) {
+          Character(search: $search) {
+            id
+            siteUrl
+            name {
+              full
+            }
+            image {
+              large
+            }
+            description
+            media {
+              nodes {
+                title {
+                  romaji
+                }
               }
             }
           }
         }
-      }
-    `;
+      `;
 
-    const variables = { search: characterName };
+      const variables = { search: characterName };
 
-    try {
       const response = await axios.post('https://graphql.anilist.co', {
         query: query,
         variables: variables
@@ -55,6 +55,7 @@ module.exports = {
       if (!characterData) {
         return interaction.editReply(`${language.__n('global.no_results')} **${characterName}**`);
       }
+
       let description = characterData.description || `${language.__n('global.no_description')}`;
       if (description && description.length > 600) {
         description = description.slice(0, 600) + '...';

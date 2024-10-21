@@ -9,55 +9,55 @@ module.exports = {
       .setDescription(`${language.__n('anime.command_description')}`)
       .addStringOption(option => option.setName('name').setDescription(`${language.__n('anime.anime_name')}`).setRequired(true)),
   async execute(interaction) {
-    await interaction.deferReply();
+    try {
+      await interaction.deferReply();
 
-    const animeName = interaction.options.getString('name');
+      const animeName = interaction.options.getString('name');
 
-    const query = `
-      query ($name: String) {
-        Media (search: $name, type: ANIME) {
-          id
-          siteUrl
-          title {
-            romaji
-            english
-            native
-          }
-          description
-          coverImage {
-            large
-          }
-          format
-          episodes
-          status
-          startDate {
-            year
-            month
-            day
-          }
-          endDate {
-            year
-            month
-            day
-          }
-          season
-          averageScore
-          meanScore
-          studios(isMain: true) {
-            edges {
-              node {
-                name
+      const query = `
+        query ($name: String) {
+          Media (search: $name, type: ANIME) {
+            id
+            siteUrl
+            title {
+              romaji
+              english
+              native
+            }
+            description
+            coverImage {
+              large
+            }
+            format
+            episodes
+            status
+            startDate {
+              year
+              month
+              day
+            }
+            endDate {
+              year
+              month
+              day
+            }
+            season
+            averageScore
+            meanScore
+            studios(isMain: true) {
+              edges {
+                node {
+                  name
+                }
               }
             }
+            genres
           }
-          genres
         }
-      }
-    `;
+      `;
 
-    const variables = { name: animeName };
+      const variables = { name: animeName };
 
-    try {
       const response = await axios.post('https://graphql.anilist.co', {
         query: query,
         variables: variables
@@ -106,7 +106,7 @@ module.exports = {
           .setImage(embedImage)
           .setTimestamp();
 
-      interaction.editReply({ embeds: [embed] });
+      await interaction.editReply({ embeds: [embed] });
     } catch (error) {
       console.error(`${language.__n('global.error')}`, error);
       if (interaction.replied || interaction.deferred) {

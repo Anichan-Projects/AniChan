@@ -8,29 +8,29 @@ module.exports = {
         .setName('popular')
         .setDescription(`${language.__n('popular.command_description')}`),
     async execute(interaction) {
-        await interaction.deferReply();
-
-        const query = `
-      query {
-        Page (perPage: 10) {
-          media (sort: POPULARITY_DESC, type: ANIME) {
-            id
-            siteUrl
-            title {
-              romaji
-            }
-            description
-            coverImage {
-              large
-            }
-            averageScore
-            meanScore
-          }
-        }
-      }
-    `;
-
         try {
+            await interaction.deferReply();
+
+            const query = `
+                query {
+                    Page (perPage: 10) {
+                        media (sort: POPULARITY_DESC, type: ANIME) {
+                            id
+                            siteUrl
+                            title {
+                                romaji
+                            }
+                            description
+                            coverImage {
+                                large
+                            }
+                            averageScore
+                            meanScore
+                        }
+                    }
+                }
+            `;
+
             const response = await axios.post('https://graphql.anilist.co', {
                 query: query
             }, {
@@ -86,8 +86,12 @@ module.exports = {
                 await i.update(updateEmbed());
             });
 
-            collector.on('end', () => {
-                interaction.editReply({ components: [] });
+            collector.on('end', async () => {
+                try {
+                    await interaction.editReply({ components: [] });
+                } catch (error) {
+                    console.error(`${language.__n('global.error')}`, error);
+                }
             });
         } catch (error) {
             console.error(`${language.__n('global.error')}`, error);

@@ -11,9 +11,9 @@ module.exports = {
                 .setDescription(`${language.__n('avatar.user_name')}`)
                 .setRequired(true)),
     async execute(interaction) {
-        await interaction.deferReply();
-
         try {
+            await interaction.deferReply();
+
             const user = interaction.options.getUser('user');
             const member = interaction.guild.members.cache.find(m => m.user.id === user.id) || interaction.member;
 

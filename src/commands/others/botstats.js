@@ -7,9 +7,9 @@ module.exports = {
         .setName('stats')
         .setDescription(`${language.__n('bot_stats.description')}`),
     async execute(interaction) {
-        await interaction.deferReply();
-
         try {
+            await interaction.deferReply();
+
             const uptime = process.uptime();
             const days = Math.floor(uptime / 86400);
             const hours = Math.floor(uptime / 3600) % 24;
@@ -68,7 +68,7 @@ module.exports = {
 
             await interaction.editReply({ embeds: [embed] });
         } catch (error) {
-            console.error(error);
+            console.error(`${language.__n('global.error')}`, error);
             if (interaction.replied || interaction.deferred) {
                 await interaction.editReply(`${language.__n('global.error_reply')}`);
             } else {

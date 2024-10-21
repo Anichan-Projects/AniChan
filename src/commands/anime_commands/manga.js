@@ -9,41 +9,41 @@ module.exports = {
         .setDescription(`${language.__n('manga.command_description')}`)
         .addStringOption(option => option.setName('name').setDescription(`${language.__n('manga.manga_name')}`).setRequired(true)),
     async execute(interaction) {
-        await interaction.deferReply();
-
-        const mangaName = interaction.options.getString('name');
-
-        const query = `
-      query ($name: String) {
-        Media (search: $name, type: MANGA) {
-          id
-          siteUrl
-          title {
-            romaji
-          }
-          description
-          coverImage {
-            large
-          }
-          chapters
-          genres
-          averageScore
-          meanScore
-          studios(isMain: true) {
-            edges {
-              node {
-                name
-              }
-            }
-          }
-          genres
-        }
-      }
-    `;
-
-        const variables = { name: mangaName };
-
         try {
+            await interaction.deferReply();
+
+            const mangaName = interaction.options.getString('name');
+
+            const query = `
+                query ($name: String) {
+                    Media (search: $name, type: MANGA) {
+                        id
+                        siteUrl
+                        title {
+                            romaji
+                        }
+                        description
+                        coverImage {
+                            large
+                        }
+                        chapters
+                        genres
+                        averageScore
+                        meanScore
+                        studios(isMain: true) {
+                            edges {
+                                node {
+                                    name
+                                }
+                            }
+                        }
+                        genres
+                    }
+                }
+            `;
+
+            const variables = { name: mangaName };
+
             const response = await axios.post('https://graphql.anilist.co', {
                 query: query,
                 variables: variables

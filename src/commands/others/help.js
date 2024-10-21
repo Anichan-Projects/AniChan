@@ -7,14 +7,14 @@ const language = require('./../../language/language_setup.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("help")
-        .setDescription(`${language.__n(`help.command_description`)}`),
+        .setDescription(`${language.__n('help.command_description')}`),
     async execute(interaction) {
-        await interaction.deferReply();
-
         try {
+            await interaction.deferReply();
+
             const embed = new EmbedBuilder()
-                .setTitle(`${language.__n(`help.command_title`)}`)
-                .setDescription(`${language.__n(`help.embed_description`)}`)
+                .setTitle(`${language.__n('help.command_title')}`)
+                .setDescription(`${language.__n('help.embed_description')}`)
                 .setTimestamp();
 
             const commandsDirectory = path.join(__dirname, '..');
@@ -33,11 +33,11 @@ module.exports = {
 
             await interaction.editReply({ embeds: [embed] });
         } catch (error) {
-            console.error(`${language.__n(`global.error`)}`, error);
+            console.error(`${language.__n('global.error')}`, error);
             if (interaction.replied || interaction.deferred) {
-                await interaction.editReply(`${language.__n(`global.error_reply`)}`);
+                await interaction.editReply(`${language.__n('global.error_reply')}`);
             } else {
-                await interaction.reply(`${language.__n(`global.error_reply`)}`);
+                await interaction.reply(`${language.__n('global.error_reply')}`);
             }
         }
     },

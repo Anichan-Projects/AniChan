@@ -9,30 +9,30 @@ module.exports = {
         .setDescription(`${language.__n('staff.command_description')}`)
         .addStringOption(option => option.setName('name').setDescription(`${language.__n('staff.staff_name')}`).setRequired(true)),
     async execute(interaction) {
-        await interaction.deferReply();
-
-        const staffName = interaction.options.getString('name');
-
-        const query = `
-            query ($search: String) {
-                Staff(search: $search) {
-                    id
-                    siteUrl
-                    name {
-                        first
-                        last
-                    }
-                    image {
-                        large
-                    }
-                    description
-                }
-            }
-        `;
-
-        const variables = { search: staffName };
-
         try {
+            await interaction.deferReply();
+
+            const staffName = interaction.options.getString('name');
+
+            const query = `
+                query ($search: String) {
+                    Staff(search: $search) {
+                        id
+                        siteUrl
+                        name {
+                            first
+                            last
+                        }
+                        image {
+                            large
+                        }
+                        description
+                    }
+                }
+            `;
+
+            const variables = { search: staffName };
+
             const response = await axios.post('https://graphql.anilist.co', {
                 query: query,
                 variables: variables

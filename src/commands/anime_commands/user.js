@@ -9,35 +9,35 @@ module.exports = {
       .setDescription(`${language.__n('user.command_description')}`)
       .addStringOption(option => option.setName('username').setDescription(`${language.__n('user.user_name')}`).setRequired(true)),
   async execute(interaction) {
-    await interaction.deferReply();
+    try {
+      await interaction.deferReply();
 
-    const username = interaction.options.getString('username');
+      const username = interaction.options.getString('username');
 
-    const query = `
-      query ($username: String) {
-        User(name: $username) {
-          id
-          name
-          about
-          siteUrl
-          avatar {
-            large
-          }
-          statistics {
-            anime {
-              count
-              minutesWatched
+      const query = `
+        query ($username: String) {
+          User(name: $username) {
+            id
+            name
+            about
+            siteUrl
+            avatar {
+              large
             }
-            manga {
-              count
-              chaptersRead
+            statistics {
+              anime {
+                count
+                minutesWatched
+              }
+              manga {
+                count
+                chaptersRead
+              }
             }
           }
         }
-      }
-    `;
+      `;
 
-    try {
       const response = await axios.post('https://graphql.anilist.co', {
         query: query,
         variables: { username }

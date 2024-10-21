@@ -8,29 +8,29 @@ module.exports = {
       .setName('trending')
       .setDescription(`${language.__n('trending.command_description')}`),
   async execute(interaction) {
-    await interaction.deferReply();
+    try {
+      await interaction.deferReply();
 
-    const query = `
-            query {
-                Page (perPage: 10) {
-                    media (sort: TRENDING_DESC, type: ANIME) {
-                        id
-                        siteUrl
-                        title {
-                            romaji
+      const query = `
+                query {
+                    Page (perPage: 10) {
+                        media (sort: TRENDING_DESC, type: ANIME) {
+                            id
+                            siteUrl
+                            title {
+                                romaji
+                            }
+                            description
+                            coverImage {
+                                large
+                            }
+                            averageScore
+                            meanScore
                         }
-                        description
-                        coverImage {
-                            large
-                        }
-                        averageScore
-                        meanScore
                     }
                 }
-            }
-        `;
+            `;
 
-    try {
       const response = await axios.post('https://graphql.anilist.co', {
         query: query
       }, {
@@ -83,11 +83,15 @@ module.exports = {
         } else if (i.customId === 'next' && currentPage < trendingAnime.length - 1) {
           currentPage++;
         }
-        await interaction.editReply(updateEmbed());
+        await i.update(updateEmbed());
       });
 
-      collector.on('end', () => {
-        interaction.editReply({ components: [] });
+      collector.on('end', async () => {
+        try {
+          await interaction.editReply({ components: [] });
+        } catch (error) {
+          console.error(`${language.__n('global.error')}`, error);
+        }
       });
     } catch (error) {
       console.error(`${language.__n('global.error')}`, error);

@@ -9,35 +9,35 @@ module.exports = {
         .setDescription(`${language.__n('studio.command_description')}`)
         .addStringOption(option => option.setName('name').setDescription(`${language.__n('studio.studio_name')}`).setRequired(true)),
     async execute(interaction) {
-        await interaction.deferReply();
+        try {
+            await interaction.deferReply();
 
-        const studioName = interaction.options.getString('name');
+            const studioName = interaction.options.getString('name');
 
-        const query = `
-            query ($search: String) {
-                Studio(search: $search) {
-                    id
-                    name
-                    siteUrl
-                    media(isMain: true, sort: POPULARITY_DESC) {
-                        nodes {
-                            id
-                            siteUrl
-                            title {
-                                romaji
-                            }
-                            startDate {
-                                year
+            const query = `
+                query ($search: String) {
+                    Studio(search: $search) {
+                        id
+                        name
+                        siteUrl
+                        media(isMain: true, sort: POPULARITY_DESC) {
+                            nodes {
+                                id
+                                siteUrl
+                                title {
+                                    romaji
+                                }
+                                startDate {
+                                    year
+                                }
                             }
                         }
                     }
                 }
-            }
-        `;
+            `;
 
-        const variables = { search: studioName };
+            const variables = { search: studioName };
 
-        try {
             const response = await axios.post('https://graphql.anilist.co', {
                 query: query,
                 variables: variables
@@ -105,11 +105,15 @@ module.exports = {
                 } else if (i.customId === 'next' && currentPage < totalPages - 1) {
                     currentPage++;
                 }
-                await interaction.editReply(updateEmbed());
+                await i.update(updateEmbed());
             });
 
-            collector.on('end', () => {
-                interaction.editReply({ components: [] });
+            collector.on('end', async () => {
+                try {
+                    await interaction.editReply({ components: [] });
+                } catch (error) {
+                    console.error(`${language.__n('global.error')}`, error);
+                }
             });
         } catch (error) {
             console.error(`${language.__n('global.error')}`, error);
