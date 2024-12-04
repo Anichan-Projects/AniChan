@@ -1,0 +1,14 @@
+query {
+    AiringSchedule {
+        id
+        mediaId
+        episode
+        airingAt
+        media {
+            title {
+                romaji
+            }
+            siteUrl
+        }
+    }
+}

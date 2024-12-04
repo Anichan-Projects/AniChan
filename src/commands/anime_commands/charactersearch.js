@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js');
 const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 const language = require('./../../language/language_setup.js');
 
 module.exports = {
@@ -13,28 +15,7 @@ module.exports = {
       await interaction.deferReply();
 
       const character = interaction.options.getString('character');
-
-      const query = `
-        query ($character: String) {
-          Character (search: $character) {
-            name {
-              full
-            }
-            media {
-              nodes {
-                id
-                title {
-                  romaji
-                }
-                coverImage {
-                  large
-                }
-              }
-            }
-          }
-        }
-      `;
-
+      const query = fs.readFileSync(path.join(__dirname, '../../queries/characters.graphql'), 'utf8');
       const variables = { character };
 
       const response = await axios.post('https://graphql.anilist.co', {

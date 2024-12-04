@@ -1,0 +1,25 @@
+query ($name: String) {
+    Media(search: $name, type: MANGA) {
+        id
+        siteUrl
+        title {
+            romaji
+        }
+        description
+        coverImage {
+            large
+        }
+        chapters
+        genres
+        averageScore
+        meanScore
+        studios(isMain: true) {
+            edges {
+                node {
+                    name
+                }
+            }
+        }
+        genres
+    }
+}

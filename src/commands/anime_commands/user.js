@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js');
 const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 const language = require('./../../language/language_setup.js');
 
 module.exports = {
@@ -13,30 +15,7 @@ module.exports = {
       await interaction.deferReply();
 
       const username = interaction.options.getString('username');
-
-      const query = `
-        query ($username: String) {
-          User(name: $username) {
-            id
-            name
-            about
-            siteUrl
-            avatar {
-              large
-            }
-            statistics {
-              anime {
-                count
-                minutesWatched
-              }
-              manga {
-                count
-                chaptersRead
-              }
-            }
-          }
-        }
-      `;
+      const query = fs.readFileSync(path.join(__dirname, '../../queries/user.graphql'), 'utf8');
 
       const response = await axios.post('https://graphql.anilist.co', {
         query: query,
@@ -61,22 +40,22 @@ module.exports = {
           .setColor('#C6FFFF')
           .addFields(
               {
-                name: 'Đã xem',
+                name: `${language.__n('user.anime_count')}`,
                 value: `${userData.statistics.anime.count} ${language.__n('user.anime_count')}.`,
                 inline: true,
               },
               {
-                name: 'Đã xem',
+                name: `${language.__n('user.minutes_watched')}`,
                 value: `${userData.statistics.anime.minutesWatched} ${language.__n('user.manga_count')}`,
                 inline: true,
               },
               {
-                name: 'Đã xem',
+                name: `${language.__n('user.manga_count')}`,
                 value: `${userData.statistics.manga.count} ${language.__n('user.minutes_watched')}.`,
                 inline: true,
               },
               {
-                name: 'Đã đọc',
+                name: `${language.__n('user.chapters_read')}`,
                 value: `${userData.statistics.manga.chaptersRead} ${language.__n('user.chapters_read')}.`,
                 inline: true,
               }

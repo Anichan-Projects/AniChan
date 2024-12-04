@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js');
 const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 const language = require('./../../language/language_setup.js');
 
 module.exports = {
@@ -13,35 +15,7 @@ module.exports = {
             await interaction.deferReply();
 
             const mangaName = interaction.options.getString('name');
-
-            const query = `
-                query ($name: String) {
-                    Media (search: $name, type: MANGA) {
-                        id
-                        siteUrl
-                        title {
-                            romaji
-                        }
-                        description
-                        coverImage {
-                            large
-                        }
-                        chapters
-                        genres
-                        averageScore
-                        meanScore
-                        studios(isMain: true) {
-                            edges {
-                                node {
-                                    name
-                                }
-                            }
-                        }
-                        genres
-                    }
-                }
-            `;
-
+            const query = fs.readFileSync(path.join(__dirname, '../../queries/manga.graphql'), 'utf8');
             const variables = { name: mangaName };
 
             const response = await axios.post('https://graphql.anilist.co', {

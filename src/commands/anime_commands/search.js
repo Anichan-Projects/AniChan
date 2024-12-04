@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js');
 const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 const language = require('./../../language/language_setup.js');
 const commandCooldown = new Map();
 
@@ -72,18 +74,7 @@ module.exports = {
             if (data.result && data.result.length > 0) {
                 const animeid = data.result[0].anilist;
 
-                const query = `
-                    query ($id: Int) {
-                        Media (id: $id, type: ANIME) {
-                            siteUrl
-                            title { romaji english native }
-                            coverImage { large }
-                            description
-                            genres
-                        }
-                    }
-                `;
-
+                const query = fs.readFileSync(path.join(__dirname, '../../queries/search.graphql'), 'utf8');
                 const variables = { id: animeid };
                 const graphqlResponse = await axios.post('https://graphql.anilist.co', {
                     query: query,

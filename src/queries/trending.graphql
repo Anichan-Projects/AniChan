@@ -1,0 +1,17 @@
+query {
+    Page (perPage: 10) {
+        media (sort: TRENDING_DESC, type: ANIME) {
+            id
+            siteUrl
+            title {
+                romaji
+            }
+            description
+            coverImage {
+                large
+            }
+            averageScore
+            meanScore
+        }
+    }
+}

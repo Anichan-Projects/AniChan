@@ -1,0 +1,15 @@
+query ($id: Int) {
+    Media (id: $id, type: ANIME) {
+        siteUrl
+        title {
+            romaji
+            english
+            native
+        }
+        coverImage {
+            large
+        }
+        description
+        genres
+    }
+}

@@ -1,0 +1,19 @@
+query ($search: String) {
+    Studio(search: $search) {
+        id
+        name
+        siteUrl
+        media(isMain: true, sort: POPULARITY_DESC) {
+            nodes {
+                id
+                siteUrl
+                title {
+                    romaji
+                }
+                startDate {
+                    year
+                }
+            }
+        }
+    }
+}

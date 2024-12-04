@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 const language = require('./../../language/language_setup.js');
 
 module.exports = {
@@ -13,29 +15,7 @@ module.exports = {
             await interaction.deferReply();
 
             const studioName = interaction.options.getString('name');
-
-            const query = `
-                query ($search: String) {
-                    Studio(search: $search) {
-                        id
-                        name
-                        siteUrl
-                        media(isMain: true, sort: POPULARITY_DESC) {
-                            nodes {
-                                id
-                                siteUrl
-                                title {
-                                    romaji
-                                }
-                                startDate {
-                                    year
-                                }
-                            }
-                        }
-                    }
-                }
-            `;
-
+            const query = fs.readFileSync(path.join(__dirname, '../../queries/studio.graphql'), 'utf8');
             const variables = { search: studioName };
 
             const response = await axios.post('https://graphql.anilist.co', {

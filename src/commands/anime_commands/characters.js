@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js');
 const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 const language = require('./../../language/language_setup.js');
 
 module.exports = {
@@ -13,30 +15,7 @@ module.exports = {
       await interaction.deferReply();
 
       const characterName = interaction.options.getString('name');
-
-      const query = `
-        query ($search: String) {
-          Character(search: $search) {
-            id
-            siteUrl
-            name {
-              full
-            }
-            image {
-              large
-            }
-            description
-            media {
-              nodes {
-                title {
-                  romaji
-                }
-              }
-            }
-          }
-        }
-      `;
-
+      const query = fs.readFileSync(path.join(__dirname, '../../queries/characters.graphql'), 'utf8');
       const variables = { search: characterName };
 
       const response = await axios.post('https://graphql.anilist.co', {
@@ -61,11 +40,13 @@ module.exports = {
         description = description.slice(0, 600) + '...';
       }
 
+      const uniqueAnimeAppearances = [...new Set(characterData.media.nodes.map(node => node.title.romaji))];
+
       const embed = new EmbedBuilder()
           .setTitle(characterData.name.full)
           .setURL(characterData.siteUrl)
           .setDescription(description)
-          .addFields({ name: `${language.__n('character.anime_appearances')}`, value: characterData.media.nodes.map(node => node.title.romaji).join(', ') || `${language.__n('global.no_results')}` })
+          .addFields({ name: `${language.__n('character.anime_appearances')}`, value: uniqueAnimeAppearances.join(', ') || `${language.__n('global.no_results')}` })
           .setImage(characterData.image.large)
           .setColor('#C6FFFF')
           .setTimestamp();

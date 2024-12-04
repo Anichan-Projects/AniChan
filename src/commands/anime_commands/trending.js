@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 const language = require('./../../language/language_setup.js');
 
 module.exports = {
@@ -11,25 +13,7 @@ module.exports = {
     try {
       await interaction.deferReply();
 
-      const query = `
-                query {
-                    Page (perPage: 10) {
-                        media (sort: TRENDING_DESC, type: ANIME) {
-                            id
-                            siteUrl
-                            title {
-                                romaji
-                            }
-                            description
-                            coverImage {
-                                large
-                            }
-                            averageScore
-                            meanScore
-                        }
-                    }
-                }
-            `;
+      const query = fs.readFileSync(path.join(__dirname, '../../queries/trending.graphql'), 'utf8');
 
       const response = await axios.post('https://graphql.anilist.co', {
         query: query

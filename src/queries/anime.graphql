@@ -1,0 +1,39 @@
+query ($name: String) {
+    Media (search: $name, type: ANIME) {
+        id
+        siteUrl
+        title {
+            romaji
+            english
+            native
+        }
+        description
+        coverImage {
+            large
+        }
+        format
+        episodes
+        status
+        startDate {
+            year
+            month
+            day
+        }
+        endDate {
+            year
+            month
+            day
+        }
+        season
+        averageScore
+        meanScore
+        studios(isMain: true) {
+            edges {
+                node {
+                    name
+                }
+            }
+        }
+        genres
+    }
+}
