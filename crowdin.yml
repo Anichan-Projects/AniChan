@@ -1,0 +1,3 @@
+files:
+  - source: src/language/language/en.json
+    translation: /src/language/language/%two_letters_code%.%file_extension%
