@@ -30,12 +30,13 @@ module.exports = {
       const data = response.data;
       const userData = data.data.User;
 
+      const userImage = `https://img.anili.st/user/${userData.id}`;
       if (!userData) {
         return interaction.editReply(`${language.__n('global.no_results')}: **${username}**`);
       }
 
       const embed = new EmbedBuilder()
-          .setTitle(userData.name)
+          .setTitle(`${userData.name}'s infomation`)
           .setURL(userData.siteUrl)
           .setColor('#C6FFFF')
           .addFields(
@@ -46,12 +47,12 @@ module.exports = {
               },
               {
                 name: `${language.__n('user.minutes_watched')}`,
-                value: `${userData.statistics.anime.minutesWatched} ${language.__n('user.manga_count')}`,
+                value: `${userData.statistics.anime.minutesWatched} ${language.__n('user.minutes_watched')}`,
                 inline: true,
               },
               {
                 name: `${language.__n('user.manga_count')}`,
-                value: `${userData.statistics.manga.count} ${language.__n('user.minutes_watched')}.`,
+                value: `${userData.statistics.manga.count} ${language.__n('user.manga_count')}.`,
                 inline: true,
               },
               {
@@ -60,7 +61,7 @@ module.exports = {
                 inline: true,
               }
           )
-          .setThumbnail(userData.avatar.large)
+          .setImage(userImage)
           .setTimestamp();
 
       await interaction.editReply({ embeds: [embed] });

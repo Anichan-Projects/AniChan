@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
 const language = require('./language/language_setup.js');
+const { checkBan } = require('./bancheck.js');
 
 dotenv.config();
 
@@ -69,6 +70,9 @@ client.on('interactionCreate', async (interaction) => {
 
     const command = commands.get(commandName);
     if (!command) return;
+
+    const isBanned = await checkBan(interaction);
+    if (isBanned) return;
 
     try {
         await command.execute(interaction);

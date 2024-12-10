@@ -27,6 +27,6 @@ module.exports = {
         .setDescription(`${language.__n("language.response_language")} ${response}`)
         .setColor("#66ffff");
 
-    await interaction.reply({ embeds: [embed] });
+    await interaction.reply({ embeds: [embed], ephemeral: true });
   },
 };

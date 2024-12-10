@@ -1,0 +1,5 @@
+# Follow this ban structure "Time, date, reason"
+# For example:
+# UUID discord users are 12345678
+# Create 1 txt file with the name "12345678" and the file content as below
+# 1H11, 1/1/1111, Exemplary ban

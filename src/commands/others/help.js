@@ -31,7 +31,7 @@ module.exports = {
                 }
             }
 
-            await interaction.editReply({ embeds: [embed] });
+            await interaction.editReply({ embeds: [embed], ephemeral: true });
         } catch (error) {
             console.error(`${language.__n('global.error')}`, error);
             if (interaction.replied || interaction.deferred) {

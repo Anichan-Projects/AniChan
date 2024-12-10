@@ -77,7 +77,7 @@ module.exports = {
                     .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 }) })
                     .setColor('#66FFFF');
 
-                await interaction.editReply({ embeds: [embed] });
+                await interaction.editReply({ embeds: [embed], ephemeral: true });
             });
         } catch (error) {
             console.error(`${language.__n('global.error')}`, error);

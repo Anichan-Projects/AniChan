@@ -141,5 +141,18 @@
 		"command_description": "Lấy danh sách 10 anime phổ biến"
 	},
 	"en": "Tiếng Anh",
-	"vi": "Tiếng Việt"
+	"vi": "Tiếng Việt",
+	"schedule": {
+		"command_description": "Lấy lịch phát sóng anime.",
+		"airing_schedule": "Lịch phát sóng"
+	},
+	"userban": {
+		"bantitle": "Bạn đã bị cấm sử dụng AniChan",
+		"username": "Tên người dùng",
+		"uuid": "UUID",
+		"bantime": "Thời gian cấm",
+		"reason": "Lý do",
+		"contact": "❗ Liên hệ với quản trị viên trong máy chủ hỗ trợ để biết thêm thông tin.",
+		"noban": "Bạn không bị cấm sử dụng."
+	}
 }
