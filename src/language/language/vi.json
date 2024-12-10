@@ -37,9 +37,8 @@
 		"embed_description": "Dưới đây là danh sách lệnh có sẵn: "
 	},
 	"anime_season": {
-		"command_description": "Get the anime schedule for a current season.",
-		"anime_name": "Schedule list",
-		"schedule_title": "anime_schedule.schedule_title"
+		"command_description": "Xem lịch phát sóng anime của mùa hiện tại.",
+		"anime_name": "Danh sách lịch"
 	},
 	"anime": {
 		"command_description": "Tìm kiếm thông tin về một bộ anime cụ thể.",
