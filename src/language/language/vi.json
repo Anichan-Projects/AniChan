@@ -11,6 +11,7 @@
 		"server_register_error": "Lỗi khi đăng ký lệnh cho máy chủ: ",
 		"preview_button": "Trang trước",
 		"next_button": "Trang sau",
+		"page": "Trang",
 		"unavailable": "không xác định",
 		"no_description": "Không có mô tả",
 		"description": "Mô tả",
@@ -28,13 +29,17 @@
 		"season": "Mùa",
 		"studio": "Studio",
 		"minute": "phút",
-		"retry": "Thử lại sau",
-		"page": "Trang"
+		"retry": "Thử lại sau"
 	},
 	"help": {
 		"command_description": "Hiển thị cách sử dụng và chức năng của tất cả các lệnh.",
 		"command_title": "Danh sách các lệnh",
 		"embed_description": "Dưới đây là danh sách lệnh có sẵn: "
+	},
+	"anime_season": {
+		"command_description": "Get the anime schedule for a current season.",
+		"anime_name": "Schedule list",
+		"schedule_title": "anime_schedule.schedule_title"
 	},
 	"anime": {
 		"command_description": "Tìm kiếm thông tin về một bộ anime cụ thể.",
@@ -92,8 +97,7 @@
 	},
 	"ascii": {
 		"command_description": "Chuyển văn bản thành ASCII.",
-		"text": "Văn bản cần chuyển",
-		"text_limit": "Văn bản không được vượt quá 2000 ký tự."
+		"text": "Văn bản cần chuyển"
 	},
 	"avatar": {
 		"command_description": "Lấy ảnh đại diện của người dùng.",
@@ -117,10 +121,10 @@
 	},
 	"language": {
 		"command_description": "Chuyển đổi ngôn ngữ cho bot.",
-		"language_option": "Danh sách ngôn ngữ",
 		"language_switch": "Ngôn ngữ đã thay đổi",
+		"response_language": "Ngôn ngữ hiện tại của bot đã được đặt thành: ",
 		"select_language": "Chọn ngôn ngữ",
-		"response_language": "Ngôn ngữ hiện tại của bot đã được đặt thành: "
+		"language_option": "Danh sách ngôn ngữ"
 	},
 	"langlist": {
 		"command_description": "Xem ngôn ngữ hiện tại của bot và danh sách ngôn ngữ có sẵn.",
@@ -133,9 +137,9 @@
 		"uptime": "Hoạt động",
 		"version": "Phiên bản",
 		"disk_usage": "Dung lượng ổ đĩa sử dụng",
+		"os": "Hệ điều hành",
 		"node": "Phiên bản Node.js",
-		"library": "Phiên bản thư viện",
-		"os": "Hệ điều hành"
+		"library": "Phiên bản thư viện"
 	},
 	"popular": {
 		"command_description": "Lấy danh sách 10 anime phổ biến"
