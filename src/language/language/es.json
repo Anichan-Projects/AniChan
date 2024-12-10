@@ -1,0 +1,150 @@
+{
+	"global": {
+		"tracemoe_api_limit": "Because of the trace.moe server's limited requirements, you can only use this command once every 60 minutes.",
+		"ready": "Ready",
+		"status_ready": "Bot status ready",
+		"command_error": "An error occurred while executing the command: ",
+		"command_register": "Command registered",
+		"waiting_command": "Waiting for register command...",
+		"guild_join": "Joined a new server: ",
+		"command_register_error": "Error when registering command: ",
+		"server_register_error": "Error when registering command for server: ",
+		"preview_button": "Preview",
+		"next_button": "Next",
+		"page": "Page",
+		"unavailable": "Unavailable",
+		"no_description": "No description.",
+		"description": "Description",
+		"error": "Error: ",
+		"error_reply": "An error occurred. Please try again later.",
+		"no_results": "No results found for search: ",
+		"nsfw_block": "AniChan block content: ",
+		"nsfw_block_reason": "__Reason:__ To protect your server from Discord's service, AniChan blocks search results containing 18+ content.",
+		"episodes": "Episodes",
+		"chapters": "Chapters",
+		"genres": "Genres",
+		"status": "Status",
+		"average_score": "Average score",
+		"mean_score": "Mean score",
+		"season": "Season",
+		"studio": "Studio",
+		"minute": "minute",
+		"retry": "Retry"
+	},
+	"help": {
+		"command_description": "Shows the usage and functions of all commands.",
+		"command_title": "Command list",
+		"embed_description": "List of available commands:"
+	},
+	"anime_season": {
+		"command_description": "Get the anime schedule for a current season.",
+		"anime_name": "Schedule list",
+		"schedule_title": "anime_schedule.schedule_title"
+	},
+	"anime": {
+		"command_description": "Search for information about a specific anime.",
+		"anime_name": "Anime name"
+	},
+	"character": {
+		"command_description": "Search for information about a specific character.",
+		"character_name": "Character name",
+		"anime_appearances": "Anime appearances"
+	},
+	"character_search": {
+		"command_description": "Search for anime series that contain character.",
+		"character_name": "Character name",
+		"anime_list": "List of anime containing characters: "
+	},
+	"manga": {
+		"command_description": "Search for information about a specific manga.",
+		"manga_name": "Manga name"
+	},
+	"search": {
+		"command_description": "Search anime by image. (Supports maximum file size of 25MB)",
+		"image_link": "Image link",
+		"cut_black_borders": "Cut black borders",
+		"similarity": "Similarity",
+		"appears_episode": "Appears in episode: ",
+		"file_too_large": "File too large. Maximum file size is 25MB.",
+		"tracemoe_api_limit": "The request limit for the trace.moe server has been reached. Please try again later.",
+		"image_option": "upload option",
+		"upload_image": "Upload image"
+	},
+	"staff": {
+		"command_description": "Search for information about a specific staff.",
+		"staff_name": "Staff name",
+		"staff_info": "Staff info"
+	},
+	"studio": {
+		"command_description": "Get information about the studio and a list of anime produced by the studio.",
+		"studio_name": "Studio name",
+		"product_year": "Product year",
+		"studio_info": "Studio info",
+		"product_list": "List of anime produced by the studio"
+	},
+	"trending": {
+		"command_description": "Get a list of 10 trending anime on AniList.",
+		"trending_title": "Trending anime",
+		"trending_description": "Description"
+	},
+	"user": {
+		"command_description": "Get information about a specific user.",
+		"user_name": "User name",
+		"anime_count": "anime count",
+		"manga_count": "manga count",
+		"minutes_watched": "minutes watched",
+		"chapters_read": "chapters read"
+	},
+	"ascii": {
+		"command_description": "Convert text to ASCII.",
+		"text": "Text"
+	},
+	"avatar": {
+		"command_description": "Get the avatar of a user.",
+		"user_name": "User name",
+		"requested_by": "Requested by"
+	},
+	"ping": {
+		"description": "Bot ping."
+	},
+	"weather": {
+		"command_description": "Get the weather for a specific location.",
+		"location": "Location",
+		"longitude": "Longitude",
+		"latitude": "Latitude",
+		"degreetype": "Degree type",
+		"current_temperature": "Current temperature",
+		"feels_like": "Feels like",
+		"winddisplay": "Wind",
+		"humidity": "Humidity",
+		"observationtime": "Update time"
+	},
+	"language": {
+		"command_description": "Change the bot's language",
+		"language_switch": "Bot language has been set to:",
+		"response_language": "Response language has been set to: ",
+		"language": "language",
+		"select_language": "Select language",
+		"language_option": "Language list"
+	},
+	"langlist": {
+		"command_description": "Get a list of available language & current language.",
+		"title": "Current language:",
+		"description": "Language list: "
+	},
+	"bot_stats": {
+		"description": "Get bot information.",
+		"title": "Bot information",
+		"uptime": "Uptime",
+		"version": "Version",
+		"disk_usage": "Disk usage",
+		"os": "Operating system",
+		"node": "Node.js version",
+		"library": "Library version"
+	},
+	"popular": {
+		"command_description": "Get the list of 10 popular anime on AniList."
+	},
+	"en": "English",
+	"vi": "Vietnamese"
+}
