@@ -38,8 +38,7 @@
 	},
 	"anime_season": {
 		"command_description": "Get the anime schedule for a current season.",
-		"anime_name": "Schedule list",
-		"schedule_title": "anime_schedule.schedule_title"
+		"anime_name": "Schedule list"
 	},
 	"anime": {
 		"command_description": "Search for information about a specific anime.",
