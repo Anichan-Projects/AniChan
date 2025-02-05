@@ -1,0 +1,30 @@
+query($page: Int){
+    Page(page: $page, perPage: 50) {
+        media(sort: [SCORE_DESC, ID_DESC], type: ANIME) {
+        id
+        title {
+            romaji
+            english
+            native
+        }
+        averageScore
+        genres
+        description
+        episodes
+        status
+        meanScore
+        season
+        startDate {
+            year
+        }
+        studios(isMain: true) {
+            edges {
+                node {
+                    name
+                    }
+                }
+        }
+        siteUrl
+        }
+    }
+}

@@ -6,7 +6,8 @@ const language = require('./language/language_setup.js');
 
 const activities = [
   { type: ActivityType.Watching, text: 'anime' },
-  { type: ActivityType.Watching, text: 'invite.anichan.asia' },
+  { type: ActivityType.Watching, text: 'anilist.co' },
+  { type: ActivityType.Custom, text: 'manga' },
 ];
 
 function setRandomActivity() {

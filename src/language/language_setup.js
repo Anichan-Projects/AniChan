@@ -3,7 +3,7 @@ const language = require('i18n');
 language.configure({
     locales: ['vi', 'en'],
     directory: __dirname + '/language',
-    defaultLocale: 'en',
+    defaultLocale: 'vi',
     objectNotation: true,
 });
 

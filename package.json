@@ -1,24 +1,26 @@
 {
   "name": "anichan",
-  "version": "1.0.1",
+  "version": "2025.1.25.1",
   "description": "",
   "main": "./src/index.js",
   "scripts": {
     "start": "node ./src/index.js",
+    "unregister": "node ./src/utli/unregister_slash_commands.js",
     "debug": "nodemon ./src/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@discordjs/builders": "^1.9.0",
-    "@discordjs/rest": "^2.4.0",
-    "axios": "^1.7.8",
-    "discord-api-types": "^0.37.101",
-    "discord.js": "^14.16.3",
-    "dotenv": "^16.3.1",
+    "@discordjs/builders": "^1.10.0",
+    "@discordjs/rest": "^2.4.2",
+    "axios": "^1.7.9",
+    "discord-api-types": "^0.37.117",
+    "discord.js": "^14.17.3",
+    "dotenv": "^16.4.7",
     "i18n": "^0.15.1",
-    "nodemon": "^3.1.7",
+    "minecraft-server-util": "^5.4.4",
+    "nodemon": "^3.1.9",
     "weather-js": "^2.0.0"
   }
 }

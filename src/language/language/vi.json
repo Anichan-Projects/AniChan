@@ -154,5 +154,8 @@
 		"reason": "Lý do",
 		"contact": "❗ Liên hệ với quản trị viên trong máy chủ hỗ trợ để biết thêm thông tin.",
 		"noban": "Bạn không bị cấm sử dụng."
+	},
+	"random": {
+		"command_description": "Lấy anime ngẫu nhiên."
 	}
 }

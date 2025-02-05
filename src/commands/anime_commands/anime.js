@@ -43,7 +43,7 @@ module.exports = {
       let description = animeData.description;
       if (description) {
         description = description.replace(/\n*<br>/g, '');
-        if (description.length > 400) {
+        if (description.length > 600) {
           description = description.slice(0, 600) + '...';
         }
       }

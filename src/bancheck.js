@@ -26,7 +26,7 @@ async function checkBan(interaction) {
             .setFooter({ text: `${language.__n('userban.contact')}` })
             .setTimestamp();
 
-        await interaction.reply({ embeds: [embed], ephemeral: true });
+        await interaction.reply({ embeds: [embed], ephemeral: false });
         return true;
     }
     return false;
