@@ -157,5 +157,8 @@
 		"reason": "Reason",
 		"contact": "❗ Contact the bot support server for more details about the ban.",
 		"noban": "You are not banned."
+	},
+	"random": {
+		"command_description": "Get random anime."
 	}
 }
